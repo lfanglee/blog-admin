@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-    entry: path.join(__dirname, '../src/index.ts'),
+    entry: path.join(__dirname, '../src/index.tsx'),
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, '../dist')
@@ -32,6 +32,11 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
+                enforce: 'pre',
+                test: /\.js$/,
+                use: 'source-map-loader'
+            },
+            {
                 test: /\.css$/,
                 // use: ['style-loader', 'css-loader']
                 use: ExtractTextPlugin.extract({
@@ -52,6 +57,10 @@ module.exports = {
                 ]
             }
         ]
+    },
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
     },
     resolve: {
         extentions: ['.tsx', '.ts', '.js', '.json']
