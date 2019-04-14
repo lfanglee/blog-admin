@@ -3,7 +3,9 @@ import * as ReactDOM from 'react-dom';
 
 import { Hello } from './components/Hello';
 
+import './index.scss';
+
 ReactDOM.render(
     <Hello compiler="Typescript" framework="React" />,
-    document.getElementById('example')
+    document.getElementById('root')
 );
