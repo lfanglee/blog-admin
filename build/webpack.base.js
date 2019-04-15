@@ -21,18 +21,6 @@ module.exports = {
             ...fileLoaders
         ]
     },
-    optimization: {
-        runtimeChunk: 'single',
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'all'
-                }
-            }
-        }
-    },
     externals: {
         'react': 'window.React',
         'react-dom': 'window.ReactDOM'

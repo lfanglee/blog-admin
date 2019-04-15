@@ -39,7 +39,8 @@ module.exports = merge(baseConfig, {
         runtimeChunk: 'single',
         splitChunks: {
             cacheGroups: {
-                vendor: {
+                default: false,
+                vendors: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendor',
                     chunks: 'all'
