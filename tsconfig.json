@@ -7,7 +7,7 @@
             "esnext"
         ],
         "allowJs": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "module": "esnext",
         "moduleResolution": "node",
         "experimentalDecorators": true,
