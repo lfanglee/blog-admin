@@ -5,12 +5,12 @@ import Loadable from 'react-loadable';
 const Loading = () => <div>loading...</div>;
 
 const Home = Loadable({
-    loader: () => import(/* webpackChunkName: "home" */'./pages/Home'),
+    loader: () => import(/* webpackChunkName: "home" */'@/pages/Home'),
     loading: Loading
 });
 
 const Test = Loadable({
-    loader: () => import(/* webpackChunkName: "test" */'./pages/Test'),
+    loader: () => import(/* webpackChunkName: "test" */'@/pages/Home'),
     loading: Loading
 });
 
