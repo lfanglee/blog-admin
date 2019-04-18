@@ -7,7 +7,7 @@ module.exports = [
             loader: 'babel-loader',
             options: {
                 cacheDirectory: true,
-                presets: ["@babel/env"]
+                presets: ['@babel/env']
             }
         },
         include: resolve('src')
@@ -23,7 +23,7 @@ module.exports = [
                 }
             }
         ],
-        include: resolve('src'),
+        include: resolve('src')
     },
     {
         enforce: 'pre',

@@ -21,8 +21,9 @@ module.exports = merge(baseConfig, {
                 target: `${config.dev.host}:${config.dev.port}/mock`,
                 pathRewrite: (_path, req) => {
                     const realUrl = req.url.split('?')[0];
+
                     if (!path.extname(realUrl)) {
-                        req.url = realUrl + '.json';
+                        req.url = `${realUrl}.json`;
                     }
                     req.url = req.url.replace(/\/api/, '');
                 },

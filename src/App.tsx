@@ -1,16 +1,16 @@
-import * as React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import * as React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 const Loading = () => <div>loading...</div>;
 
-const Home = Loadable({
+var Home = Loadable({
     loader: () => import(/* webpackChunkName: "home" */'@/pages/Home'),
     loading: Loading
 });
 
 const Test = Loadable({
-    loader: () => import(/* webpackChunkName: "test" */'@/pages/Home'),
+    loader: () => import(/* webpackChunkName: "test" */'@/pages/Test'),
     loading: Loading
 });
 

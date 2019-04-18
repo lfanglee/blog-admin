@@ -9,7 +9,7 @@ const baseLoaders = () => {
         'css-loader',
         'postcss-loader'
     ];
-}
+};
 
 module.exports = [
     {

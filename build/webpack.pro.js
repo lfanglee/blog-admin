@@ -1,12 +1,11 @@
 'use strict';
 
-const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const baseConfig = require('./webpack.base');
 const config = require('./config');
@@ -48,15 +47,10 @@ module.exports = merge(baseConfig, {
             }
         },
         minimizer: [
-            new UglifyJsPlugin({
+            new TerserPlugin({
                 cache: true,
                 parallel: true,
-                sourceMap: true,
-                uglifyOptions: {
-                    compress: {
-                        warnings: false
-                    }
-                }
+                sourceMap: true
             }),
             new optimizeCssAssetsPlugin({
                 cssProcessor: require('cssnano'),

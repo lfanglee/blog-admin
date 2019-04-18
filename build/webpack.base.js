@@ -22,7 +22,7 @@ module.exports = {
         ]
     },
     externals: {
-        'react': 'window.React',
+        react: 'window.React',
         'react-dom': 'window.ReactDOM'
     },
     resolve: {
