@@ -1,6 +1,16 @@
+const tsImportPluginFactory = require('ts-import-plugin');
 const { resolve } = require('../utils');
+const config = require('../config');
+
+const createLintingRules = () => ({
+    test: /\.(j|t)sx?$/,
+    loader: 'eslint-loader',
+    enforce: 'pre',
+    include: resolve('src')
+});
 
 module.exports = [
+    ...(config.dev.useEslint ? [createLintingRules()] : []),
     {
         test: /\.jsx?$/,
         use: {
@@ -19,7 +29,16 @@ module.exports = [
                 loader: 'awesome-typescript-loader',
                 options: {
                     useCache: true,
-                    cacheDirectory: resolve('.cache-loader')
+                    cacheDirectory: resolve('.cache-loader'),
+                    getCustomTransformers: () => ({
+                        before: [
+                            tsImportPluginFactory({
+                                libraryName: 'antd',
+                                libraryDirectory: 'lib',
+                                style: true
+                            })
+                        ]
+                    })
                 }
             }
         ],

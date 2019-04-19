@@ -1,9 +1,12 @@
 import * as React from 'react';
+import { Button } from 'antd';
 
 export default class Test extends React.Component {
     render() {
         return (
-            <div>Test</div>
+            <div>
+                Test<Button>btn</Button>
+            </div>
         );
     }
 }

@@ -8,7 +8,7 @@
         ],
         "allowJs": true,
         "noImplicitAny": false,
-        "module": "esnext",
+        "module": "ESNext",
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "jsx": "react",
