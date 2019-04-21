@@ -284,9 +284,9 @@
             }
         ],
         "react/jsx-handler-names": [
-            1,
+            0,
             {
-                "eventHandlerPrefix": "_handle",
+                "eventHandlerPrefix": "handle",
                 "eventHandlerPropPrefix": "on"
             }
         ],
