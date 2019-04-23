@@ -1,34 +1,10 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import configureStore from '@/store';
 
-const initialState = {
-    count: 0
-};
-
-const reducer = (state = initialState, action) => {
-    console.log('reducer', state, action);
-
-    switch (action.type) {
-        case 'INCREMENT':
-            return {
-                count: state.count + 1
-            };
-        case 'DECREMENT':
-            return {
-                count: state.count - 1
-            };
-        case 'RESET':
-            return {
-                count: 0
-            };
-        default:
-            return state;
-    }
-};
-const store = createStore(reducer);
+const store = configureStore();
 
 const Loading = () => <div>loading...</div>;
 

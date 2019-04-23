@@ -11,7 +11,7 @@ interface Props {
 
 @(connect((state: any) => {
     return {
-        count: state.count
+        count: state.counter.count
     };
 }, (dispatch: any) => {
     return {
