@@ -1,3 +1,6 @@
 module.exports = {
-    'primary-color': 'black'
+    'primary-color': '#5ac1dd',
+    'success-color': '#5ab95c',
+    'error-color': '#d9544e',
+    'warning-color': '#efad4c'
 };
