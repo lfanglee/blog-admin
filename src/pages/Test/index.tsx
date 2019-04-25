@@ -2,6 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import BaseComponent from '@/pages/components/BaseComponent';
 import { Button } from 'antd';
+import { AppState } from '@/store';
+import { increment, decrement } from '@/store/test/actions';
 
 interface Props {
     count: number;
@@ -9,15 +11,13 @@ interface Props {
     decrement?: () => void;
 }
 
-@(connect((state: any) => {
+@(connect((state: AppState) => {
     return {
         count: state.counter.count
     };
-}, (dispatch: any) => {
-    return {
-        increment: () => { dispatch({ type: 'INCREMENT' }); },
-        decrement: () => { dispatch({ type: 'DECREMENT' }); }
-    };
+}, {
+    increment,
+    decrement
 }) as any)
 export default class Test extends BaseComponent<Props> {
     private handleShowAlert = () => {
