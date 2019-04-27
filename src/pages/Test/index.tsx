@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import BaseComponent from '@/pages/components/BaseComponent';
 import { Button } from 'antd';
 import { AppState } from '@/store';
@@ -11,6 +12,7 @@ interface Props {
     decrement?: () => void;
 }
 
+@withRouter
 @(connect((state: AppState) => {
     return {
         count: state.counter.count
