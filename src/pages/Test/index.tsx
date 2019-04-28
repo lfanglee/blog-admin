@@ -12,7 +12,7 @@ interface Props {
     decrement?: () => void;
 }
 
-@withRouter
+@(withRouter as any)
 @(connect((state: AppState) => {
     return {
         count: state.counter.count
