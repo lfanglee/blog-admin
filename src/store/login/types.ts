@@ -15,4 +15,4 @@ interface LogoutAction {
     type: LOGOUT
 }
 
-export type LoginActionTypes = LoginAction | LoginoutAction;
+export type LoginActionTypes = LoginAction | LogoutAction;
