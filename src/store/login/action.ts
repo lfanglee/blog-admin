@@ -3,9 +3,10 @@ import {
 } from './types';
 import { LOGIN, LOGOUT } from '@/constants/index';
 
-export function login(): LoginActionTypes {
+export function login(user): LoginActionTypes {
     return {
-        type: LOGIN
+        type: LOGIN,,
+        user
     };
 }
 
