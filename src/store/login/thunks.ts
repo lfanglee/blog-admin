@@ -1,5 +1,5 @@
-import { Action} from 'redux';
-import { ThunkAction } from 'redux-thunk';
+import { Action } from 'redux';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import {
     Login
 } from './types';
@@ -10,7 +10,13 @@ import {
 } from './action';
 
 function exampleAPI() {
-    return Promise.resolve('Async Chat Bot');
+    return Promise.resolve({
+        ret: 0,
+        ret_msg: 'aaa',
+        data: {
+            token: 'aaa'
+        }
+    });
 }
 
 const login = (
@@ -18,7 +24,17 @@ const login = (
     password: string
 ): ThunkAction<void, Login, null, Action<string>> => async dispatch => {
     dispatch(loginRequest(username));
-    
+    try {
+        const loginRes = await exampleAPI();
+
+        if (+loginRes.ret === 0) {
+            dispatch(loginSuccess(loginRes.data.token));
+        } else {
+            dispatch(loginFail());
+        }
+    } catch (error) {
+        dispatch(loginFail());
+    }
 };
 
 export default login;
