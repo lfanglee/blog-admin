@@ -1,28 +1,48 @@
 import {
-    User,
+    Login,
     LoginActionTypes
 } from './types';
 import {
-    LOGIN,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
     LOGOUT
 } from '@/constants/index';
 
-const initialState: User = {
-    username: ''
+const initialState: Login = {
+    username: '',
+    token: '',
+    isLoginIng: false
 };
 
 export default function counterReducer(
-    state: User = initialState,
+    state: Login = initialState,
     action: LoginActionTypes
-): User {
+): Login {
     switch (action.type) {
-        case LOGIN:
+        case LOGIN_REQUEST:
             return {
-                username: 'admin'
+                ...state,
+                username: action.username,
+                isLoginIng: true
+            };
+        case LOGIN_SUCCESS:
+            return {
+                ...state,
+                token: action.token,
+                isLoginIng: false
+            };
+        case LOGIN_FAIL:
+            return {
+                ...state,
+                username: '',
+                isLoginIng: false
             };
         case LOGOUT:
             return {
-                username: ''
+                ...state,
+                username: '',
+                token: ''
             };
         default:
             return state;

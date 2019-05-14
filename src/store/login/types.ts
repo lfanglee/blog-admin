@@ -1,22 +1,24 @@
 import {
     LOGIN_REQUEST,
-    LOGOUT_REQUEST,
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    LOGOUT
 } from '@/constants';
 
-export interface User {
-    username?: string
-    logedIn: boolean
+export interface Login {
+    username: string
+    token: string
+    isLoginIng: boolean
 }
 
 interface LoginAction {
-    type: LOGIN_REQUEST,
-    user: User
+    type: LOGIN_REQUEST
+    username: string
 }
 
 interface LoginSuccssAction {
-    type: LOGIN_SUCCESS
+    type: LOGIN_SUCCESS,
+    token: string
 }
 
 interface LoginFailAction {
@@ -24,7 +26,7 @@ interface LoginFailAction {
 }
 
 interface LogoutAction {
-    type: LOGOUT_REQUEST
+    type: LOGOUT
 }
 
 export type LoginActionTypes = LoginAction | LoginSuccssAction | LoginFailAction | LogoutAction;
