@@ -11,8 +11,8 @@ import {
 
 function exampleAPI(): Promise<Ajax.AjaxResponse> {
     return Promise.resolve({
-        ret: 0,
-        ret_msg: 'aaa',
+        code: 0,
+        message: 'aaa',
         data: {
             token: 'aaa'
         }
@@ -27,7 +27,7 @@ const login = (
     try {
         const loginRes = await exampleAPI();
 
-        if (+loginRes.ret === 0) {
+        if (+loginRes.code === 0) {
             dispatch(loginSuccess(loginRes.data.token));
         } else {
             dispatch(loginFail());
