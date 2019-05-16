@@ -9,7 +9,7 @@ import {
     loginFail
 } from './action';
 
-function exampleAPI() {
+function exampleAPI(): Promise<Ajax.AjaxResponse> {
     return Promise.resolve({
         ret: 0,
         ret_msg: 'aaa',
