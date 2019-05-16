@@ -22,7 +22,9 @@ function exampleAPI(): Promise<Ajax.AjaxResponse> {
 const login = (
     username: string,
     password: string
-): ThunkAction<void, Login, null, Action<string>> => async dispatch => {
+): ThunkAction<void, Login, null, Action<string>> => async (
+    dispatch: ThunkDispatch<Login, null, Action<string>>
+) => {
     dispatch(loginRequest(username));
     try {
         const loginRes = await exampleAPI();
