@@ -12,7 +12,8 @@ import {
 const initialState: Login = {
     username: '',
     token: '',
-    isLoginIng: false
+    isLoginIng: false,
+    isLoginEd: false
 };
 
 export default function counterReducer(
@@ -30,7 +31,8 @@ export default function counterReducer(
             return {
                 ...state,
                 token: action.token,
-                isLoginIng: false
+                isLoginIng: false,
+                isLoginEd: true
             };
         case LOGIN_FAIL:
             return {

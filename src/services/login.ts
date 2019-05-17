@@ -1,9 +1,14 @@
 import request from '@/utils/axios';
 import { AxiosResponse } from 'axios';
-import { browserHistory } from 'react-router-dom';
+import history from '@/utils/history';
+
+export interface LoginParams {
+    username?: string,
+    password?: string
+}
 
 const redirectToErrorPage = (status: number) => {
-    router.push(`error-${status}`);
+    history.push('/test');
 };
 const getErrorResponse = (status: number) => ({
     code: 0,
@@ -11,9 +16,9 @@ const getErrorResponse = (status: number) => ({
     data: null
 });
 
-export async function login(params = {}): Promise<Ajax.AjaxResponse> {
+export async function login(params: LoginParams = {}): Promise<Ajax.AjaxResponse> {
     try {
-        const res: AxiosResponse = await request.post('/login');
+        const res: AxiosResponse = await request.post('/login', params);
         return res.data;
     } catch (error) {
         error.response.status === 404 ? redirectToErrorPage(404) : redirectToErrorPage(500);

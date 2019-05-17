@@ -1,11 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import counterReducer from './test/reducers';
 import loginReducer from './login/reducers';
 
 const rootReducer = combineReducers({
-    counter: counterReducer,
     login: loginReducer
     // more reducers
 });
@@ -16,7 +15,9 @@ export default function configureStore() {
     const middlewares = [thunk];
     const middleWareEnhancer = applyMiddleware(...middlewares);
 
-    const store = createStore(rootReducer, middleWareEnhancer);
+    const store = createStore(rootReducer, composeWithDevTools(
+        middleWareEnhancer
+    ));
 
     return store;
 }

@@ -8,16 +8,7 @@ import {
     loginSuccess,
     loginFail
 } from './action';
-
-function exampleAPI(): Promise<Ajax.AjaxResponse> {
-    return Promise.resolve({
-        code: 0,
-        message: 'aaa',
-        data: {
-            token: 'aaa'
-        }
-    });
-}
+import { login as loginService } from '@/services/login';
 
 const login = (
     username: string,
@@ -26,17 +17,17 @@ const login = (
     dispatch: ThunkDispatch<Login, null, Action<string>>
 ) => {
     dispatch(loginRequest(username));
-    try {
-        const loginRes = await exampleAPI();
+    const loginRes = await loginService({
+        username,
+        password
+    });
 
-        if (+loginRes.code === 0) {
-            dispatch(loginSuccess(loginRes.data.token));
-        } else {
-            dispatch(loginFail());
-        }
-    } catch (error) {
+    if (+loginRes.code === 0) {
+        dispatch(loginSuccess(loginRes.data.token));
+    } else {
         dispatch(loginFail());
     }
+    return loginRes;
 };
 
 export default login;

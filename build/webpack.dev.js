@@ -22,6 +22,9 @@ module.exports = merge(baseConfig, {
                 pathRewrite: (_path, req) => {
                     const realUrl = req.url.split('?')[0];
 
+                    if (req.method === 'POST') {
+                        req.method = 'GET';
+                    }
                     if (!path.extname(realUrl)) {
                         req.url = `${realUrl}.json`;
                     }

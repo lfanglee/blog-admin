@@ -275,7 +275,7 @@
         ],
         "react/jsx-indent-props": [
             1,
-            2
+            4
         ],
         "react/no-multi-comp": [
             1,
