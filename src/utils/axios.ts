@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import * as queryString from 'query-string';
+import { notification } from 'antd';
 
 const instance = axios.create({
     baseURL: '/api',
@@ -20,9 +21,15 @@ instance.interceptors.response.use((res: AxiosResponse) => {
 }, (error: AxiosError) => {
     if (!error.response) {
         if (error.message.includes('timeout')) {
-            window.alert('请求超时，请检查网络是否连接正常');
+            notification.error({
+                message: '请求超时，请检查网络是否连接正常',
+                duration: 5
+            });
         } else {
-            window.alert('请求失败，请检查网络是否已连接');
+            notification.error({
+                message: '请求失败，请检查网络是否已连接',
+                duration: 5
+            });
         }
     }
     return Promise.reject(error);

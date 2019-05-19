@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Alert } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import BaseComponent from '@/pages/components/BaseComponent';
@@ -14,8 +14,13 @@ interface Props extends FormComponentProps {
     isLoginIng: boolean,
     isLoginEd: boolean,
     username: string,
-    login: typeof login,
+    login: any,
     history: History
+}
+
+interface State {
+    showErrorAlert: boolean,
+    loginErrorMsg: string
 }
 
 interface FormValue {
@@ -34,7 +39,12 @@ interface FormValue {
     login
 }) as any)
 @(Form.create({}) as any)
-export default class Login extends BaseComponent<Props> {
+export default class Login extends BaseComponent<Props, State> {
+    state = {
+        showErrorAlert: false,
+        loginErrorMsg: 'Error'
+    }
+
     componentWillMount() {
         if (this.props.isLoginEd) {
             this.props.history.push('/home');
@@ -46,9 +56,16 @@ export default class Login extends BaseComponent<Props> {
             return;
         }
         const { username, password } = value;
-        const res = await this.props.login(username, password);
+        const res: Ajax.AjaxResponse = await this.props.login(username, password);
         if (this.props.isLoginEd) {
-            this.props.history.push('/home');
+            window.localStorage.setItem('TOKEN', JSON.stringify(res.data.token));
+            const path = this.props.history.location.state && this.props.history.location.state.from.pathname;
+            this.props.history.push(path || '/home');
+        } else {
+            this.setState({
+                showErrorAlert: true,
+                loginErrorMsg: res.message
+            });
         }
     }
 
@@ -65,8 +82,12 @@ export default class Login extends BaseComponent<Props> {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="c-page-login">
-                Login
+                <div className="login-layout-top">
+                    <img src={require('../../images/logo.png')} alt="logo" />
+                    <span className="header">blog-admin login</span>
+                </div>
                 <Form onSubmit={this.handleFormSubmit} className="login-form">
+                    { this.state.showErrorAlert ? <Alert className="login-alert" message={this.state.loginErrorMsg} type="error" showIcon /> : '' }
                     <Form.Item>
                         {getFieldDecorator('username', {
                             rules: [{ required: true, message: '请输入用户名' }]
@@ -74,6 +95,7 @@ export default class Login extends BaseComponent<Props> {
                             <Input
                                 prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
                                 placeholder="username"
+                                size="large"
                             />
                         )}
                     </Form.Item>
@@ -85,11 +107,16 @@ export default class Login extends BaseComponent<Props> {
                                 prefix={<Icon type="lock" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
                                 type="password"
                                 placeholder="password"
+                                size="large"
                             />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className="login-form-button">
+                        {getFieldDecorator('remember', {
+                            valuePropName: 'checked',
+                            initialValue: true
+                        })(<Checkbox>Remember me</Checkbox>)}
+                        <Button type="primary" size="large" htmlType="submit" className="login-form-button">
                             Log in
                         </Button>
                     </Form.Item>
