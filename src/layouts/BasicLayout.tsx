@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import { withRouter } from 'react-router';
+import { withRouter, Switch, Redirect, Route } from 'react-router';
+
+import PageLoading from '@/components/PageLoading';
+import Page404 from '@/pages/ErrorPage/404';
+import { menus, BaseMenu } from './Menu';
+import './index.scss';
 
 const { Sider, Header, Content } = Layout;
 
@@ -18,27 +23,23 @@ export default class PageLayout extends React.PureComponent {
                     }}
                 >
                     <div className="logo" />
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-                        <Menu.Item key="1">
-                            <Icon type="user" />
-                            <span className="nav-text">nav 1</span>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <Icon type="video-camera" />
-                            <span className="nav-text">nav 2</span>
-                        </Menu.Item>
-                        <Menu.Item key="3">
-                            <Icon type="upload" />
-                            <span className="nav-text">nav 3</span>
-                        </Menu.Item>
-                    </Menu>
+                    <BaseMenu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']} />
                 </Sider>
                 <Layout style={{ marginLeft: 200 }}>
                     <Header style={{ background: '#fff', padding: 0 }} />
                     <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                        <div>
-                            content
-                        </div>
+                        <React.Suspense fallback={<PageLoading />}>
+                            <Switch>
+                                <Redirect from="/" to={menus[0].path} exact />
+                                {menus.map(menu => {
+                                    const route = ({ component: Component, path, title }: typeof menu) => (
+                                        <Route key={title} path={path} component={Component} />
+                                    );
+                                    return menu.component ? route(menu) : menu.subMenu.map(item => route(item));
+                                })}
+                                <Route component={Page404} />
+                            </Switch>
+                        </React.Suspense>
                     </Content>
                 </Layout>
             </Layout>

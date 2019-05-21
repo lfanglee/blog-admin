@@ -58,7 +58,7 @@ export default class Login extends BaseComponent<Props, State> {
         const { username, password } = value;
         const res: Ajax.AjaxResponse = await this.props.login(username, password);
         if (this.props.isLoginEd) {
-            window.localStorage.setItem('TOKEN', JSON.stringify(res.data.token));
+            window.localStorage.setItem('TOKEN', JSON.stringify(res.data));
             const path = this.props.history.location.state && this.props.history.location.state.from.pathname;
             this.props.history.push(path || '/home');
         } else {
