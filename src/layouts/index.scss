@@ -1,19 +1,68 @@
-.logo {
-    height: 32px;
-    margin: 16px;
-    img {
-        margin-left: 6px;
-        height: 100%;
+.c-layout {
+    .logo {
+        position: relative;
+        height: 64px;
+        padding-left: 24px;
+        overflow: hidden;
+        line-height: 64px;
+        background: #002140;
+        transition: all .3s;
+        img {
+            display: inline-block;
+            height: 32px;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+        h1 {
+            display: inline-block;
+            margin: 0 0 0 12px;
+            color: #FFF;
+            font-weight: 600;
+            font-size: 20px;
+            vertical-align: middle;
+        }
     }
-    span {
-        margin-left: 12px;
-        font-size: 24px;
-        color: #FFF;
-        vertical-align: middle;
+    .sidebar {
+        overflow: auto;
+        min-height: 100vh;
+        box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
     }
-}
+    .header {
+        position: relative;
+        height: 64px;
+        padding: 0;
+        background: #FFF;
+        box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+        .header-triggle {
+            height: 64px;
+            padding: 22px 24px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all .3s, padding 0;
+        }
+        .header-menu {
+            margin-right: 8px;
+            min-width: 160px
+        }
+        .header-right {
+            float: right;
+            height: 100%;
+            overflow: hidden;
+            .action {
+                display: inline-block;
+                padding: 0 12px;
+                height: 100%;
+                cursor: pointer;
+                transition: all .3s;
+            }
+            .name {
+                margin: 0 18px 0 8px;
+            }
+        }
+    }
 
-.content {
-    height: calc(100vh - 64px - 54px);
-    overflow: auto;
+    .content {
+        height: calc(100vh - 64px - 54px);
+        overflow: auto;
+    }
 }

@@ -1,33 +1,81 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import { withRouter, Switch, Redirect, Route } from 'react-router';
+import { withRouter, Switch, Redirect, Link, Route, RouteComponentProps } from 'react-router-dom';
+import { ClickParam } from 'antd/lib/menu';
 
 import PageLoading from '@/components/PageLoading';
 import Page404 from '@/pages/ErrorPage/404';
 import { menus, BaseMenu } from './Menu';
+import MyHeader from './Header';
 import './index.scss';
 
-const { Sider, Header, Content } = Layout;
+export interface User {
+    _id: string;
+    name: string;
+    username: string;
+    gravatar: string;
+}
+
+interface BaseLayoutProps extends RouteComponentProps {
+    userInfo: {
+        getInfo?: User
+    }
+}
+
+interface BaseLayoutState {
+    collapsed: boolean;
+    currentUser: any
+}
+
+const { Sider, Content } = Layout;
 
 @(withRouter as any)
-export default class PageLayout extends React.PureComponent {
+export default class PageLayout extends React.PureComponent<BaseLayoutProps, BaseLayoutState> {
+    state = {
+        collapsed: false,
+        currentUser: {} as any
+    }
+
+    onMenuClick = ({ key }: ClickParam) => {
+        if (key === 'set') {
+            this.props.history.push('/settings/options');
+        } else if (key === 'logout') {
+            // TODO logout
+        }
+    }
+
+    toggle = () => {
+        this.setState((preState: BaseLayoutState) => ({
+            collapsed: !preState.collapsed
+        }));
+    }
+
     render() {
         return (
-            <Layout>
+            <Layout className="c-layout">
                 <Sider
-                    style={{
-                        overflow: 'auto',
-                        height: '100vh',
-                        position: 'fixed',
-                        left: 0
-                    }}
+                    className="sidebar"
+                    collapsible
+                    collapsed={this.state.collapsed}
+                    trigger={null}
+                    width="256"
                 >
-                    <div className="logo" />
+                    <div className="logo">
+                        <Link to="/">
+                            <img src={require('@/images/logo.png')} alt="logo" />
+                            {this.state.collapsed || <h1>后台管理</h1>}
+                        </Link>
+                    </div>
                     <BaseMenu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']} />
                 </Sider>
-                <Layout style={{ marginLeft: 200 }}>
-                    <Header style={{ background: '#fff', padding: 0 }} />
-                    <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                <Layout>
+                    <MyHeader
+                        collapsed={this.state.collapsed}
+                        toggle={this.toggle}
+                        currendUser={this.state.currentUser}
+                        onMenuClick={this.onMenuClick}
+                    />
+                    <Content style={{ margin: '24px 16px', overflow: 'initial' }}>
                         <React.Suspense fallback={<PageLoading />}>
                             <Switch>
                                 <Redirect from="/" to={menus[0].path} exact />
