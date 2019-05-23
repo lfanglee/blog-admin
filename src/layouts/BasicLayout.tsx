@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { withRouter, Switch, Redirect, Link, Route, RouteComponentProps } from 'react-router-dom';
+import DocumentTitle from 'react-document-title';
 import { ClickParam } from 'antd/lib/menu';
 
 import PageLoading from '@/components/PageLoading';
 import Page404 from '@/pages/ErrorPage/404';
 import { menus, BaseMenu } from './Menu';
 import MyHeader from './Header';
+import { getPageTitle } from '@/utils/getPageTitle';
 import './index.scss';
 
 export interface User {
@@ -16,7 +18,7 @@ export interface User {
     gravatar: string;
 }
 
-interface BaseLayoutProps extends RouteComponentProps {
+interface BaseLayoutProps {
     userInfo: {
         getInfo?: User
     }
@@ -30,7 +32,7 @@ interface BaseLayoutState {
 const { Sider, Content } = Layout;
 
 @(withRouter as any)
-export default class PageLayout extends React.PureComponent<BaseLayoutProps, BaseLayoutState> {
+export default class PageLayout extends React.PureComponent<BaseLayoutProps & RouteComponentProps, BaseLayoutState> {
     state = {
         collapsed: false,
         currentUser: {} as any
@@ -51,7 +53,10 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps, Bas
     }
 
     render() {
-        return (
+        const {
+            location: { pathname }
+        } = this.props;
+        const layout = (
             <Layout className="c-layout">
                 <Sider
                     className="sidebar"
@@ -91,6 +96,11 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps, Bas
                     </Content>
                 </Layout>
             </Layout>
+        );
+        return (
+            <DocumentTitle title={getPageTitle(pathname)}>
+                <div>{layout}</div>
+            </DocumentTitle>
         );
     }
 }
