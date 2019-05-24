@@ -6,11 +6,12 @@ import {
 import {
     login as loginRequest,
     loginSuccess,
-    loginFail
+    loginFail,
+    logout as LogoutAction
 } from './action';
 import { login as loginService } from '@/services/login';
 
-const login = (
+export const login = (
     username: string,
     password: string
 ): ThunkAction<void, Login, null, Action<string>> => async (
@@ -30,4 +31,9 @@ const login = (
     return loginRes;
 };
 
-export default login;
+export const logout = (): ThunkAction<void, Login, null, Action<string>> => (
+    dispatch: ThunkDispatch<Login, null, Action<string>>
+) => {
+    window.localStorage.removeItem('TOKEN');
+    dispatch(LogoutAction());
+};

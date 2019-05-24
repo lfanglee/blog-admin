@@ -7,7 +7,7 @@ import { FormComponentProps } from 'antd/lib/form';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import { AppState } from '@/store';
-import login from '@/store/login/thunks';
+import { login } from '@/store/login/thunks';
 import './index.scss';
 
 interface Props {

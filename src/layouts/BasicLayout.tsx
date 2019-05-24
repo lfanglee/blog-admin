@@ -9,6 +9,7 @@ import Page404 from '@/pages/ErrorPage/404';
 import { menus, BaseMenu } from './Menu';
 import MyHeader from './Header';
 import { getPageTitle } from '@/utils/getPageTitle';
+import { logout } from '@/store/login/thunks';
 import './index.scss';
 
 export interface User {
