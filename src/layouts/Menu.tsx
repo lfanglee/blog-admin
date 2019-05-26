@@ -14,32 +14,32 @@ interface MenuItem {
 export const menus = [
     {
         path: '/dashboard',
-        title: 'Home',
-        icon: 'home',
+        title: '管理中心',
+        icon: 'dashboard',
         component: React.lazy(() => import('@/pages/Home'))
     },
     {
         path: '/article',
-        title: 'Articles',
+        title: '文章管理',
         icon: 'project',
         subMenu: [
             {
                 path: '/article/list',
-                title: 'List',
+                title: '文章列表',
                 icon: 'bars',
-                component: React.lazy(() => import('@/pages/Home'))
+                component: React.lazy(() => import('@/pages/Articles/ArticlesList'))
             },
             {
                 path: '/article/release',
-                title: 'Edit',
+                title: '发布文章',
                 icon: 'edit',
-                component: React.lazy(() => import('@/pages/Home'))
+                component: React.lazy(() => import('@/pages/Articles/ArticleRelease'))
             }
         ]
     },
     {
         path: '/tag',
-        title: 'Tags',
+        title: '分类/标签',
         icon: 'tags',
         component: React.lazy(() => import('@/pages/Home'))
     }

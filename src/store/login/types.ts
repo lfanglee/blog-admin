@@ -8,8 +8,7 @@ import {
 export interface Login {
     username: string
     token: string
-    isLoginIng: boolean,
-    isLoginEd: boolean
+    isLoginIng: boolean
 }
 
 interface LoginAction {

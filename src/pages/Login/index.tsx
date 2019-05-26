@@ -11,9 +11,10 @@ import { login } from '@/store/login/thunks';
 import './index.scss';
 
 interface Props {
+    // props from redux state
     isLoginIng: boolean,
-    isLoginEd: boolean,
     username: string,
+    // props from redux dispatch
     login: any,
 }
 
@@ -31,8 +32,7 @@ interface FormValue {
 @(connect((state: AppState) => {
     return {
         username: state.login.username,
-        isLoginIng: state.login.isLoginIng,
-        isLoginEd: state.login.isLoginEd
+        isLoginIng: state.login.isLoginIng
     };
 }, {
     login
@@ -44,19 +44,13 @@ export default class Login extends BaseComponent<Props & RouteComponentProps & F
         loginErrorMsg: 'Error'
     }
 
-    componentWillMount() {
-        if (this.props.isLoginEd) {
-            this.props.history.push('/home');
-        }
-    }
-
     private login = async (value: FormValue) => {
         if (this.props.isLoginIng) {
             return;
         }
         const { username, password } = value;
         const res: Ajax.AjaxResponse = await this.props.login(username, password);
-        if (this.props.isLoginEd) {
+        if (+res.code === 0) {
             window.localStorage.setItem('TOKEN', JSON.stringify(res.data));
             const path = this.props.history.location.state && this.props.history.location.state.from.pathname;
             this.props.history.push(path || '/home');
@@ -116,7 +110,13 @@ export default class Login extends BaseComponent<Props & RouteComponentProps & F
                                 valuePropName: 'checked',
                                 initialValue: true
                             })(<Checkbox>Remember me</Checkbox>)}
-                            <Button type="primary" size="large" htmlType="submit" className="login-form-button">
+                            <Button
+                                type="primary"
+                                size="large"
+                                htmlType="submit"
+                                className="login-form-button"
+                                loading={this.props.isLoginIng}
+                            >
                                 Log in
                             </Button>
                         </Form.Item>

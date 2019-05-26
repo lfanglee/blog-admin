@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { connect } from 'react-redux';
+import { Layout } from 'antd';
 import { withRouter, Switch, Redirect, Link, Route, RouteComponentProps } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import { ClickParam } from 'antd/lib/menu';
@@ -9,6 +10,7 @@ import Page404 from '@/pages/ErrorPage/404';
 import { menus, BaseMenu } from './Menu';
 import MyHeader from './Header';
 import { getPageTitle } from '@/utils/getPageTitle';
+import { AppState } from '@/store';
 import { logout } from '@/store/login/thunks';
 import './index.scss';
 
@@ -20,6 +22,9 @@ export interface User {
 }
 
 interface BaseLayoutProps {
+    // dispatchProps
+    logout: () => void,
+    // ownProps
     userInfo: {
         getInfo?: User
     }
@@ -33,6 +38,9 @@ interface BaseLayoutState {
 const { Sider, Content } = Layout;
 
 @(withRouter as any)
+@(connect((state: AppState) => ({}), {
+    logout
+}) as any)
 export default class PageLayout extends React.PureComponent<BaseLayoutProps & RouteComponentProps, BaseLayoutState> {
     state = {
         collapsed: false,
@@ -43,7 +51,8 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps & Ro
         if (key === 'set') {
             this.props.history.push('/settings/options');
         } else if (key === 'logout') {
-            // TODO logout
+            this.props.logout();
+            this.props.history.push('/login');
         }
     }
 
@@ -72,7 +81,7 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps & Ro
                             {this.state.collapsed || <h1>后台管理</h1>}
                         </Link>
                     </div>
-                    <BaseMenu theme="dark" mode="inline" defaultSelectedKeys={['dashboard']} />
+                    <BaseMenu className="menu" theme="dark" mode="inline" defaultSelectedKeys={['dashboard']} />
                 </Sider>
                 <Layout>
                     <MyHeader

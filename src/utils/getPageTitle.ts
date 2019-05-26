@@ -10,6 +10,9 @@ export const getPageTitle: (n: string) => string = (pathname: string) => {
     const urlList = mapPathToList(pathname);
     const [first = '', last = ''] = urlList;
     const firstMatch = menus.filter(item => item.path === first)[0];
+    if (!firstMatch) {
+        return '404';
+    }
     const lastMatch = firstMatch.subMenu && firstMatch.subMenu.filter(item => item.path === last)[0];
     if (lastMatch) {
         return `${firstMatch.title} - ${lastMatch.title}`;

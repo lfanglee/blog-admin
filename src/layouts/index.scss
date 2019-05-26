@@ -23,9 +23,14 @@
         }
     }
     .sidebar {
+        position: relative;
         overflow: auto;
         min-height: 100vh;
+        z-index: 10;
         box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+    }
+    .menu {
+        padding: 16px 0;
     }
     .header {
         position: relative;
@@ -33,6 +38,7 @@
         padding: 0;
         background: #FFF;
         box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+        z-index: 9;
         .header-triggle {
             height: 64px;
             padding: 22px 24px;
