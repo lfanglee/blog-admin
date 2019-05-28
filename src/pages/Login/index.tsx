@@ -53,7 +53,7 @@ export default class Login extends BaseComponent<Props & RouteComponentProps & F
         if (+res.code === 0) {
             window.localStorage.setItem('TOKEN', JSON.stringify(res.data));
             const path = this.props.history.location.state && this.props.history.location.state.from.pathname;
-            this.props.history.push(path || '/home');
+            this.props.history.push(path || '/');
         } else {
             this.setState({
                 showErrorAlert: true,

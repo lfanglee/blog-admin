@@ -77,7 +77,7 @@
             "allowForLoopAfterthoughts": true
         }],
         "no-restricted-properties": 1,
-        "prefer-promise-reject-errors": [1, {
+        "prefer-promise-reject-errors": [0, {
             "allowEmptyReject": false
         }],
         "one-var": [

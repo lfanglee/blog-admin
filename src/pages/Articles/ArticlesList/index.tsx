@@ -4,6 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { PageHeader, Card, Button, Table, Dropdown, Menu, Icon, Divider, Badge } from 'antd';
 
 import BaseComponent from '@/pages/components/BaseComponent';
+import './index.scss';
 
 interface Props {
 
@@ -96,7 +97,7 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
                             <Button icon="plus" type="primary" onClick={this.handleCreateNewClick}>
                                 新建
                             </Button>
-                            <Table dataSource={dataSource} columns={this.columns} />
+                            <Table className="article-list" dataSource={dataSource} columns={this.columns} />
                         </div>
                     </Card>
                 </div>

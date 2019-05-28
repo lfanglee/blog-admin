@@ -17,6 +17,12 @@ instance.interceptors.request.use((data: AxiosRequestConfig) => {
 });
 
 instance.interceptors.response.use((res: AxiosResponse) => {
+    if (+res.data.code !== 0) {
+        notification.error({
+            message: res.data.message || '请求失败',
+            duration: 5
+        });
+    }
     return res;
 }, (error: AxiosError) => {
     if (!error.response) {
@@ -32,7 +38,14 @@ instance.interceptors.response.use((res: AxiosResponse) => {
             });
         }
     }
-    return Promise.reject(error);
+    notification.error({
+        message: error.message,
+        duration: 5
+    });
+    return {
+        code: 400,
+        message: '请求失败, 发生了客户端错误'
+    };
 });
 
 export default instance;

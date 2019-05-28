@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Layout, Icon, Dropdown, Avatar } from 'antd';
 import Menu, { ClickParam } from 'antd/lib/menu';
 import { User } from './BasicLayout';
-// import './index.scss';
 
 interface HeaderProps {
     collapsed: boolean;
