@@ -1,8 +1,8 @@
 {
-    "code": 500,
+    "code": 0,
     "message": "ok",
     "data": {
         "token": "aaa",
-        "lifeTime": 1559059200000
+        "lifeTime": 2559059200000
     }
 }
