@@ -25,7 +25,9 @@ export default function articlesReducer(
         case GET_ARTICLE_LIST_SUCCESS:
             return {
                 ...state,
-                isLoadingArticleListData: false
+                isLoadingArticleListData: false,
+                articleList: action.payload.list,
+                pagination: action.payload.pagination
             };
         case GET_ARTICLE_LIST_FAIL:
             return {

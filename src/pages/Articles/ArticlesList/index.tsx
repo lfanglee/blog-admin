@@ -4,10 +4,21 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { PageHeader, Card, Button, Table, Dropdown, Menu, Icon, Divider, Badge } from 'antd';
 
 import BaseComponent from '@/pages/components/BaseComponent';
+import { AppState } from '@/store';
+import { getArticleList } from '@/store/articles/thunks';
+import { GetArticleListParams } from '@/services/article';
 import './index.scss';
 
 interface Props {
-
+    // props from redux state
+    articleList: Article[];
+    pagination: Pagination;
+    isLoadingListData: boolean;
+    // props from redux dispatch
+    getArticleList: (params: GetArticleListParams) => Promise<Ajax.AjaxResponse<{
+        list: Article[],
+        pagination: Pagination
+    }>>
 }
 
 const dataSource = [
@@ -32,7 +43,15 @@ const status = ['0', '草稿', '已发布', 'error'];
 const statusMap = ['default', 'processing', 'success', 'error'];
 
 @(withRouter as any)
-@(connect() as any)
+@(connect((state: AppState) => {
+    return {
+        articleList: state.articles.articleList,
+        pagination: state.articles.pagination,
+        isLoadingListData: state.articles.isLoadingArticleListData
+    };
+}, {
+    getArticleList
+}) as any)
 export default class ArticleList extends BaseComponent<Props & RouteComponentProps> {
     private columns = [{
         title: '文章标题',
@@ -73,6 +92,10 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
             </Dropdown>
         </div>
     }];
+
+    async componentDidMount() {
+        const res = await this.props.getArticleList({});
+    }
 
     handleCreateNewClick = () => {
         this.props.history.push('/article/release');

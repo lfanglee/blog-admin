@@ -15,7 +15,7 @@ interface Props {
     isLoginIng: boolean,
     username: string,
     // props from redux dispatch
-    login: any,
+    login: (username: string, password: string) => Promise<Ajax.AjaxResponse>,
 }
 
 interface State {

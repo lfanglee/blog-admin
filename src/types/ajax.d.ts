@@ -1,8 +1,8 @@
 declare namespace Ajax {
-    export interface AjaxResponse {
+    export interface AjaxResponse<T = any> {
         code: number,
         message: string,
-        data: any
+        data: T
     }
     export interface AxiosResponse {
         data: AjaxResponse

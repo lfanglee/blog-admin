@@ -3,9 +3,11 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import loginReducer from './login/reducers';
+import articlesReducer from './articles/reducers';
 
 const rootReducer = combineReducers({
-    login: loginReducer
+    login: loginReducer,
+    articles: articlesReducer
     // more reducers
 });
 
