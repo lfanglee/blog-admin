@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { PageHeader, Card, Button, Table, Dropdown, Menu, Icon, Divider, Badge } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import { AppState } from '@/store';
@@ -21,26 +22,18 @@ interface Props {
     }>>
 }
 
-const dataSource = [
-    {
-        key: '1',
-        articleName: '胡彦斌',
-        publishTime: 32,
-        look: '西湖区湖底公园1号',
-        type: '1',
-        status: '2'
-    },
-    {
-        key: '2',
-        articleName: '胡彦祖',
-        publishTime: 42,
-        look: '西湖区湖底公园1号',
-        type: '1',
-        status: '2'
-    }
-];
-const status = ['0', '草稿', '已发布', 'error'];
-const statusMap = ['default', 'processing', 'success', 'error'];
+interface ColumnRecord {
+    key: string;
+    title: string;
+    createAt: string;
+    views: number;
+    type: number;
+    state: number;
+}
+
+const stateMap = ['', '发布', '草稿'];
+const typeMap = ['', 'code'];
+const statusMap = ['default', 'success', 'processing'];
 
 @(withRouter as any)
 @(connect((state: AppState) => {
@@ -53,23 +46,24 @@ const statusMap = ['default', 'processing', 'success', 'error'];
     getArticleList
 }) as any)
 export default class ArticleList extends BaseComponent<Props & RouteComponentProps> {
-    private columns = [{
+    private columns: ColumnProps<ColumnRecord>[] = [{
         title: '文章标题',
-        dataIndex: 'articleName',
+        dataIndex: 'title',
         render: (text: string) => <a href="/" target="_blank">{text}</a>
     }, {
         title: '发布时间',
-        dataIndex: 'publishTime'
+        dataIndex: 'createAt'
     }, {
         title: '浏览量',
-        dataIndex: 'look'
+        dataIndex: 'views'
     }, {
         title: '所属分类',
-        dataIndex: 'type'
+        dataIndex: 'type',
+        render: (type: number) => <div>{typeMap[type]}</div>
     }, {
         title: '发布状态',
-        dataIndex: 'status',
-        render: (val: number) => <Badge status={statusMap[val] as any} text={status[val]} />
+        dataIndex: 'state',
+        render: (val: number) => <Badge status={statusMap[val] as any} text={stateMap[val]} />
     }, {
         title: '操作',
         dataIndex: 'action',
@@ -111,6 +105,14 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
     }
 
     render() {
+        const dataSource: ColumnRecord[] = this.props.articleList.map((item: Article) => ({
+            key: item.id,
+            title: item.title,
+            createAt: item.createAt,
+            views: item.meta.views,
+            type: item.type,
+            state: item.state
+        }));
         return (
             <div className="page c-page-articles-list">
                 <PageHeader title="文章列表" />
@@ -120,7 +122,12 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
                             <Button icon="plus" type="primary" onClick={this.handleCreateNewClick}>
                                 新建
                             </Button>
-                            <Table className="article-list" dataSource={dataSource} columns={this.columns} />
+                            <Table
+                                className="article-list"
+                                dataSource={dataSource}
+                                columns={this.columns}
+                                loading={this.props.isLoadingListData}
+                            />
                         </div>
                     </Card>
                 </div>

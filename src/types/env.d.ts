@@ -23,7 +23,7 @@ declare interface Article {
     createAt: string;
     updateAt: string;
     meta: {
-        view: number;
+        views: number;
         comments: number;
         likes: number;
     }
