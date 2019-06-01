@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { PageHeader, Card, Button, Table, Dropdown, Menu, Icon, Divider, Badge } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps, PaginationConfig } from 'antd/lib/table';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import { AppState } from '@/store';
@@ -67,14 +67,14 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
     }, {
         title: '操作',
         dataIndex: 'action',
-        render: (text: string, record) => <div>
-            <a onClick={this.handleListItemEdit}>
+        render: (text: string, record: ColumnRecord) => <div>
+            <a onClick={() => this.handleListItemEdit(record.key)}>
                 编辑
             </a>
             <Divider type="vertical" />
             <Dropdown
                 overlay={
-                    <Menu onClick={this.handleListItemMoreAction}>
+                    <Menu onClick={({ key }) => this.handleListItemMoreAction(key, record.key)}>
                         <Menu.Item key="preview">预览</Menu.Item>
                         <Menu.Item key="delete">删除</Menu.Item>
                     </Menu>
@@ -88,20 +88,36 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
     }];
 
     async componentDidMount() {
-        const res = await this.props.getArticleList({});
+        const res = await this.props.getArticleList({
+            pageNo: this.props.pagination.pageNo
+        });
     }
 
     handleCreateNewClick = () => {
         this.props.history.push('/article/release');
     }
 
-    handleListItemEdit = (e: React.MouseEvent) => {
-        e.preventDefault();
-        console.log('item edit');
+    handleListItemEdit = (recordId: string) => {
+        console.log(recordId);
     }
 
-    handleListItemMoreAction = ({ key }) => {
-        console.log(key);
+    handleListItemMoreAction = (key: string, recordId: string) => {
+        console.log(key, recordId);
+    }
+
+    handleTableChange = async (pagination: PaginationConfig) => {
+        const { current } = pagination;
+        await this.props.getArticleList({
+            pageNo: current
+        });
+    }
+
+    fetchTableData = async (params: GetArticleListParams) => {
+        const res = await this.props.getArticleList({
+            pageSize: 10,
+            ...params
+        });
+        return res;
     }
 
     render() {
@@ -113,6 +129,7 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
             type: item.type,
             state: item.state
         }));
+        const { total, pageNo: current, pageSize } = this.props.pagination;
         return (
             <div className="page c-page-articles-list">
                 <PageHeader title="文章列表" />
@@ -127,6 +144,12 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
                                 dataSource={dataSource}
                                 columns={this.columns}
                                 loading={this.props.isLoadingListData}
+                                pagination={{
+                                    total,
+                                    current,
+                                    pageSize
+                                }}
+                                onChange={this.handleTableChange}
                             />
                         </div>
                     </Card>
