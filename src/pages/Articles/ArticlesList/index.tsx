@@ -31,7 +31,7 @@ interface ColumnRecord {
     state: number;
 }
 
-const stateMap = ['', '发布', '草稿'];
+const stateMap = ['', '已发布', '草稿'];
 const typeMap = ['', 'code'];
 const statusMap = ['default', 'success', 'processing'];
 
