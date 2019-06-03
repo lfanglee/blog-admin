@@ -1,0 +1,20 @@
+.c-page-article-release {
+    .article-base-info-input {
+        .ant-form-item {
+            display: flex;
+        }
+        .ant-form-item-control-wrapper {
+            flex: 1;
+        }
+    }
+    .article-release-options-panel {
+        margin-top: 24px;
+        .artile-release-btn-group {
+            display: flex;
+            justify-content: flex-end;
+            .ant-btn {
+                margin-left: 12px;
+            }
+        }
+    }
+}

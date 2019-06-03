@@ -133,7 +133,7 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         return (
             <div className="page c-page-articles-list">
                 <PageHeader title="文章列表" />
-                <div className="content">
+                <div className="page-content">
                     <Card bordered={false}>
                         <div className="table-list-operator">
                             <Button icon="plus" type="primary" onClick={this.handleCreateNewClick}>
