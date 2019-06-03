@@ -1,0 +1,23 @@
+{
+    "code": 0,
+    "message": "成功！",
+    "data": {
+        "id": "5c9c642c2dbe4b3a83b57665",
+        "title": "Koa2 + typescript + mongodb 搭建后端restful API",
+        "keyword": "typescript, koa2, mongodb",
+        "descript": "simple descript",
+        "content": "a lot of content",
+        "state": 1,
+        "publish": 1,
+        "thumb": "https://www.img.com",
+        "type": 1,
+        "tags": [],
+        "create_at": "2019-03-28T06:05:32.196Z",
+        "update_at": "2019-03-28T06:05:32.196Z",
+        "meta": {
+            "views": 0,
+            "comments": 0,
+            "likes": 0
+        }
+    }
+}

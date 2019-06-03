@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { PageHeader, Card, Input, Form, Icon, Row, Col, Switch, Button } from 'antd';
+import { PageHeader, Button, Card, Form, Input, Icon, Row, Col, Switch } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import BaseComponent from '@/pages/components/BaseComponent';
@@ -11,10 +11,22 @@ interface Props {
 
 }
 
+interface State {
+    articleId: string
+}
+
 @(withRouter as any)
 @(connect() as any)
 @(Form.create<Props & FormComponentProps & RouteComponentProps>({}) as any)
-export default class ArticleRelease extends BaseComponent<Props & FormComponentProps & RouteComponentProps> {
+export default class ArticleRelease extends BaseComponent<Props & FormComponentProps & RouteComponentProps, State> {
+    state = {
+        articleId: ''
+    }
+
+    fetchArticleData = async (articleId: string) => {
+
+    }
+
     renderForm = () => {
         const { getFieldDecorator } = this.props.form;
         return <Form className="article-base-info-input" layout="inline">
