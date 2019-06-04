@@ -9,7 +9,7 @@ import PageLoading from '@/components/PageLoading';
 import Page404 from '@/pages/ErrorPage/404';
 import { menus, BaseMenu } from './Menu';
 import MyHeader from './Header';
-import { getPageTitle } from '@/utils/getPageTitle';
+import { mapPathToList, getPageTitle } from '@/utils/getPageTitle';
 import { AppState } from '@/store';
 import { logout } from '@/store/login/thunks';
 import './index.scss';
@@ -81,7 +81,14 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps & Ro
                             {this.state.collapsed || <h1>后台管理</h1>}
                         </Link>
                     </div>
-                    <BaseMenu className="menu" theme="dark" mode="inline" defaultSelectedKeys={['dashboard']} />
+                    <BaseMenu
+                        className="menu"
+                        theme="dark"
+                        mode="inline"
+                        openKeys={[mapPathToList(pathname)[0]]}
+                        selectedKeys={[pathname]}
+                        defaultSelectedKeys={['dashboard']}
+                    />
                 </Sider>
                 <Layout>
                     <MyHeader
