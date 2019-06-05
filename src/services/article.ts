@@ -43,7 +43,10 @@ export type PatchArticleParams = Partial<PostArticleParams> & {
  */
 export async function getArticleList(
     params: GetArticleListParams = {}, config: AxiosRequestConfig = {}
-): Promise<Ajax.AjaxResponse> {
+): Promise<Ajax.AjaxResponse<{
+    list: Article[],
+    pagination: Pagination
+}>> {
     const res: AxiosResponse = await request.get<GetArticleListParams>('/article', {
         params,
         ...config
@@ -57,7 +60,7 @@ export async function getArticleList(
  */
 export async function getArticleDetail(
     params: GetArticleDetailParams, config: AxiosRequestConfig = {}
-): Promise<Ajax.AjaxResponse> {
+): Promise<Ajax.AjaxResponse<Article>> {
     const res: AxiosResponse = await request.get<GetArticleDetailParams>(`/article/${params.id}`, {
         ...config
     });
@@ -78,7 +81,7 @@ export async function getArticleDetail(
  */
 export async function uploadArticle(
     params: PostArticleParams, config: AxiosRequestConfig = {}
-): Promise<Ajax.AjaxResponse> {
+): Promise<Ajax.AjaxResponse<Article>> {
     const res: AxiosResponse = await request.post<PostArticleParams>('/article', {
         ...params
     }, {
@@ -101,7 +104,7 @@ export async function uploadArticle(
  */
 export async function updateArticle(
     params: PatchArticleParams, config: AxiosRequestConfig = {}
-): Promise<Ajax.AjaxResponse> {
+): Promise<Ajax.AjaxResponse<Article>> {
     const res: AxiosResponse = await request.patch<PatchArticleParams>(`/article/${params.id}`, {
         ...params
     }, {
@@ -116,7 +119,7 @@ export async function updateArticle(
  */
 export async function deleteArticle(
     params: DeleteArticleParams, config: AxiosRequestConfig = {}
-): Promise<Ajax.AjaxResponse> {
+): Promise<Ajax.AjaxResponse<null>> {
     const res: AxiosResponse = await request.delete(`/article/${params.id}`, {
         ...config
     });
