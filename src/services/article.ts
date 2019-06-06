@@ -75,7 +75,7 @@ export async function getArticleDetail(
  * @param descript 文章简述
  * @param thumb 缩略图
  * @param state 文章状态 1：发布， 2：草稿
- * @param publish 是否发布 1：发布， 2：未发布
+ * @param publish 是否发布 1：公开， 2：未公开
  * @param type 文章类别 1：code
  * @param tags 标签ID列表
  */
@@ -98,7 +98,7 @@ export async function uploadArticle(
  * @param descript 文章简述
  * @param thumb 缩略图
  * @param state 文章状态 1：发布， 2：草稿
- * @param publish 是否发布 1：发布， 2：未发布
+ * @param publish 是否发布 1：公开， 2：未公开
  * @param type 文章类别 1：code
  * @param tags 标签ID列表
  */

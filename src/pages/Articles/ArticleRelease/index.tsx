@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { PageHeader, Button, Card, Form, Input, Icon, Row, Col, Switch, Spin } from 'antd';
+import { PageHeader, Button, Card, Form, Input, Icon, Row, Col, Switch, Spin, Select } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import qs from 'query-string';
 
@@ -28,6 +28,8 @@ interface State {
     loading: boolean;
     articleId: string;
 }
+
+const { Option } = Select;
 
 @(withRouter as any)
 @(connect((state: AppState) => {
@@ -76,10 +78,10 @@ export default class ArticleRelease extends BaseComponent<Props & FormComponentP
 
     renderForm = () => {
         const { getFieldDecorator } = this.props.form;
-        const { title, tags = [] } = this.props.articleDetail;
+        const { title, tags = [], keyword } = this.props.articleDetail;
         return <Form className="article-base-info-input" layout="inline">
             <Row gutter={24}>
-                <Col span={8}>
+                <Col span={12}>
                     <Form.Item label="文章标题">
                         {getFieldDecorator('title', {
                             rules: [{ required: true, message: '请输入文章标题' }],
@@ -92,28 +94,42 @@ export default class ArticleRelease extends BaseComponent<Props & FormComponentP
                         )}
                     </Form.Item>
                 </Col>
-                <Col span={8}>
-                    <Form.Item label="文章标签">
-                        {getFieldDecorator('title', {
-                            rules: [{ message: '请输入文章标签' }],
-                            initialValue: tags.join(',')
+                <Col span={12}>
+                    <Form.Item label="关键词">
+                        {getFieldDecorator('keyword', {
+                            rules: [{ required: false, message: '请输入文章关键词' }],
+                            initialValue: keyword
                         })(
                             <Input
                                 prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
-                                placeholder="请输入文章标签"
+                                placeholder="请输入文章标题（必须）"
                             />
                         )}
                     </Form.Item>
                 </Col>
-                <Col span={8}>
+            </Row>
+            <Row gutter={24} style={{ marginTop: 12 }}>
+                <Col span={12}>
                     <Form.Item label="文章分类">
-                        {getFieldDecorator('title', {
+                        {getFieldDecorator('type', {
                             rules: [{ message: '请输入文章分类' }]
                         })(
                             <Input
                                 prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
                                 placeholder="请输入文章分类"
                             />
+                        )}
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item label="文章标签">
+                        {getFieldDecorator('tags', {
+                            rules: [{ required: false, message: '请输入文章标签', type: 'array' }],
+                            initialValue: tags.map(i => i.id)
+                        })(
+                            <Select mode="multiple" placeholder="请选择文章的标签">
+                                {tags.map((item: Tag) => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                            </Select>
                         )}
                     </Form.Item>
                 </Col>

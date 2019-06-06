@@ -1,6 +1,11 @@
 import { ThunkAction } from 'redux-thunk';
-import { ArticleStore, GetArticleActionTypes, SetArticleContent, SetPublishState } from './types';
-import { GET_ARTICLE_DETAIL_REQUEST, GET_ARTICLE_DETAIL_SUCCESS, GET_ARTICLE_DETAIL_FAIL, SET_ARTICLE_CONTENT, SET_PUBLISH_STATE } from '@/constants';
+import { ArticleStore, GetArticleActionTypes, SetArticleActionTypes } from './types';
+import {
+    GET_ARTICLE_DETAIL_REQUEST,
+    GET_ARTICLE_DETAIL_SUCCESS,
+    GET_ARTICLE_DETAIL_FAIL, SET_ARTICLE_CONTENT,
+    SET_PUBLISH_STATE, SET_ARTICLE_DETAIL
+} from '@/constants';
 
 const initialState: ArticleStore = {
     detail: {},
@@ -9,7 +14,7 @@ const initialState: ArticleStore = {
 
 export default function articleReducer(
     state: ArticleStore = initialState,
-    action: GetArticleActionTypes | SetArticleContent | SetPublishState
+    action: GetArticleActionTypes | SetArticleActionTypes
 ): ArticleStore {
     switch (action.type) {
         case GET_ARTICLE_DETAIL_REQUEST:
@@ -44,6 +49,11 @@ export default function articleReducer(
                     ...state.detail,
                     publish: action.payload.state ? 1 : 2
                 }
+            };
+        case SET_ARTICLE_DETAIL:
+            return {
+                ...state,
+                detail: action.payload.detail
             };
         default:
             return state;

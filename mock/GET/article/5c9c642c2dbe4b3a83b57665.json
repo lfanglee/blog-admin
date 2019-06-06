@@ -11,7 +11,19 @@
         "publish": 1,
         "thumb": "https://www.img.com",
         "type": 1,
-        "tags": [],
+        "tags": [{
+            "id": "1",
+            "name": "node"
+        }, {
+            "id": "2",
+            "name": "typescript"
+        }, {
+            "id": "3",
+            "name": "mongodb"
+        }, {
+            "id": "4",
+            "name": "koa2"
+        }],
         "create_at": "2019-03-28T06:05:32.196Z",
         "update_at": "2019-03-28T06:05:32.196Z",
         "meta": {
