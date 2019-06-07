@@ -85,7 +85,7 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps & Ro
                         className="menu"
                         theme="dark"
                         mode="inline"
-                        openKeys={[mapPathToList(pathname)[0]]}
+                        defaultOpenKeys={[mapPathToList(pathname)[0]]}
                         selectedKeys={[pathname]}
                         defaultSelectedKeys={['dashboard']}
                     />

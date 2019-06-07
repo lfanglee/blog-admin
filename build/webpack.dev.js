@@ -16,6 +16,7 @@ module.exports = merge(baseConfig, {
         open: config.dev.autoOpenBroswer,
         inline: true,
         historyApiFallback: true,
+        disableHostCheck: true, //  新增该配置项
         proxy: {
             '/api': {
                 target: `${config.dev.host}:${config.dev.port}/mock`,

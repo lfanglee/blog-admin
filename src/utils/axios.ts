@@ -43,8 +43,10 @@ instance.interceptors.response.use((res: AxiosResponse) => {
         duration: 5
     });
     return {
-        code: 400,
-        message: '请求失败, 发生了客户端错误'
+        data: {
+            code: 400,
+            message: '请求失败, 发生了客户端错误'
+        }
     };
 });
 

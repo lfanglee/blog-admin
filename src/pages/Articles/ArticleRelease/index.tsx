@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { PageHeader, Button, Card, Form, Input, Icon, Row, Col, Switch, Spin, Select } from 'antd';
+import { PageHeader, Card, Form, Row, Col, Button, Select, Input, Icon, Switch, Spin } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import qs from 'query-string';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
 import { AppState } from '@/store';
+import { setArticleContent, setPublishState, setArticleDetail } from '@/store/article/action';
 import { getArticleDetail } from '@/store/article/thunks';
-import { GetArticleDetailParams } from '@/services/article';
+import { GetArticleDetailParams, uploadArticle, updateArticle } from '@/services/article';
 import './index.scss';
-import { setArticleContent, setPublishState } from '@/store/article/action';
 
 interface Props {
     // props from redux state
@@ -20,7 +20,8 @@ interface Props {
     // props from redux dispatch
     getArticleDetail: (params: GetArticleDetailParams) => Promise<Ajax.AjaxResponse<Article>>;
     setArticleContent: (content: string) => void,
-    setPublishState: (state: boolean) => void
+    setPublishState: (state: boolean) => void,
+    setArticleDetail: (detail: Partial<Article>) => Partial<Article>
 }
 
 interface State {
@@ -40,7 +41,8 @@ const { Option } = Select;
 }, {
     getArticleDetail,
     setArticleContent,
-    setPublishState
+    setPublishState,
+    setArticleDetail
 }) as any)
 @(Form.create<Props & FormComponentProps & RouteComponentProps>({}) as any)
 export default class ArticleRelease extends BaseComponent<Props & FormComponentProps & RouteComponentProps<{
@@ -66,6 +68,22 @@ export default class ArticleRelease extends BaseComponent<Props & FormComponentP
             id: this.state.articleId
         });
         return res;
+    }
+
+    uploadArticle = async () => {
+        const res: Ajax.AjaxResponse<Article> = await uploadArticle({
+            ...this.props.articleDetail,
+            tags: this.props.articleDetail.tags.map((i: Tag) => i.id)
+        });
+        this.props.setArticleDetail(res.data);
+    }
+
+    updateArticle = async () => {
+        const res: Ajax.AjaxResponse<Article> = await updateArticle({
+            ...this.props.articleDetail,
+            tags: this.props.articleDetail.tags.map((i: Tag) => i.id)
+        });
+        this.props.setArticleDetail(res.data);
     }
 
     handlePublicStateChange = (state: boolean) => {

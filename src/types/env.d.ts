@@ -15,8 +15,8 @@ declare interface Article {
     keyword: string;
     descript: string;
     content: string;
-    state: number;
-    publish: number;
+    state: 1 | 2;
+    publish: 1 | 2;
     thumb: string;
     type: number;
     tags: Tag[];

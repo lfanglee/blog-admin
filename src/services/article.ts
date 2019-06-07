@@ -5,8 +5,8 @@ export interface GetArticleListParams {
     pageSize?: number;
     pageNo?: number;
     keyword?: string;
-    state?: [1, 2];
-    publish?: [1, 2];
+    state?: 1 | 2;
+    publish?: 1 | 2;
     tag?: string[];  // 标签ID列表
 }
 
@@ -22,8 +22,8 @@ export interface PostArticleParams {
     content: string;
     descript?: string;
     thumb?: string;
-    state?: [1, 2];
-    publish?: [1, 2];
+    state?: 1 | 2;
+    publish?: 1 | 2;
     type?: number;
     tags?: string[];  // 标签ID列表
 }
