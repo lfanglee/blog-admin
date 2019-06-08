@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { PageHeader, Card, Table, Button, Dropdown, Menu, Icon, Divider, Badge } from 'antd';
+import { Button, Badge, Card, Dropdown, Divider, Icon, Menu, PageHeader, Table } from 'antd';
 import { ColumnProps, PaginationConfig } from 'antd/lib/table';
 
 import BaseComponent from '@/pages/components/BaseComponent';

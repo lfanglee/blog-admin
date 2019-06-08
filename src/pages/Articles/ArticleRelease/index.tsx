@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { PageHeader, Card, Form, Row, Col, Button, Select, Input, Icon, Switch, Spin } from 'antd';
+import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import qs from 'query-string';
 

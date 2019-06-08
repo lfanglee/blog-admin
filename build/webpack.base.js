@@ -30,5 +30,9 @@ module.exports = {
         alias: {
             '@': resolve('src')
         }
+    },
+    stats: {
+        // warn => /Conflicting order between:/gm.test(warn)
+        warningsFilter: warn => !~warn.indexOf('Conflicting order between') // if true will ignore
     }
 };

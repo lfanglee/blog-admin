@@ -9,6 +9,14 @@ declare interface Tag {
     updateAt: string;
 }
 
+declare interface Type {
+    id: string;
+    name: string;
+    descript: string;
+    createAt: string;
+    updateAt: string;
+}
+
 declare interface Article {
     id: string;
     title: string;

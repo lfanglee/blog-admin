@@ -1,4 +1,3 @@
-import { ThunkAction } from 'redux-thunk';
 import { ArticleStore, GetArticleActionTypes, SetArticleActionTypes } from './types';
 import {
     GET_ARTICLE_DETAIL_REQUEST,

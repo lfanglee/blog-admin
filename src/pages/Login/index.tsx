@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
-import { Form, Icon, Input, Button, Checkbox, Alert } from 'antd';
+import { Alert, Button, Checkbox, Form, Icon, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import BaseComponent from '@/pages/components/BaseComponent';

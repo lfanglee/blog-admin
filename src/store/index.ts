@@ -5,11 +5,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import loginReducer from './login/reducers';
 import articlesReducer from './articles/reducers';
 import articleReducer from './article/reducers';
+import tagsReducer from './tags/reducers';
 
 const rootReducer = combineReducers({
     login: loginReducer,
     articles: articlesReducer,
-    article: articleReducer
+    article: articleReducer,
+    tags: tagsReducer
     // more reducers
 });
 

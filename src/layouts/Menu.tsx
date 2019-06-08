@@ -38,10 +38,10 @@ export const menus = [
         ]
     },
     {
-        path: '/tag',
+        path: '/tags',
         title: '分类/标签',
         icon: 'tags',
-        component: React.lazy(() => import('@/pages/Home'))
+        component: React.lazy(() => import('@/pages/Tags'))
     }
 ];
 
