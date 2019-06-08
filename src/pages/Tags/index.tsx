@@ -1,15 +1,47 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { PageHeader } from 'antd';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
+import { AppState } from '@/store';
+import { getTags } from '@/store/tags/thunks';
+import { GetTagsParams } from '@/services/tag';
 
-export default class Tags extends BaseComponent {
+interface Props {
+    // props from redux state
+    tagsList: Tag[];
+    isLoadingTagsListData: boolean;
+    typesList: Type[];
+    isLoadingTypesListData: boolean;
+    // props from redux dispatch
+    getTags: (params?: GetTagsParams) => Promise<Ajax.AjaxResponse<{
+        list: Tag[];
+        pagination: Pagination;
+    }>>;
+}
+
+interface State {
+    inited: boolean;
+}
+
+@(connect((state: AppState) => {
+    return {
+        tagsList: state.tags.tagsList,
+        isLoadingTagsListData: state.tags.isLoadingTagsListData,
+        typesList: state.tags.typesList,
+        isLoadingTypesListData: state.tags.isLoadingTypesListData
+    };
+}, {
+    getTags
+}) as any)
+export default class Tags extends BaseComponent<Props, State> {
     state = {
         inited: false
     }
 
-    componentWillMount() {
+    async componentWillMount() {
+        await this.props.getTags();
         this.setState({ inited: true });
     }
 
