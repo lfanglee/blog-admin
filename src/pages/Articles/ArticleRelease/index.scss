@@ -7,8 +7,19 @@
             flex: 1;
         }
     }
+    .article-content-input {
+        .ant-form-item {
+            display: flex;
+        }
+        .ant-form-item-control-wrapper {
+            flex: 1;
+        }
+    }
     .article-release-options-panel {
         margin-top: 24px;
+        .ant-form-item {
+            display: flex;
+        }
         .artile-release-btn-group {
             display: flex;
             justify-content: flex-end;
