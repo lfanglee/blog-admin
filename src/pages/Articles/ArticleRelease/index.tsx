@@ -37,6 +37,7 @@ interface State {
 }
 
 const { Option } = Select;
+const types = ['', '', ''];
 
 @(withRouter as any)
 @(connect((state: AppState) => {
@@ -53,7 +54,6 @@ const { Option } = Select;
 @(Form.create<ArticleReleaseComProps>({
     onFieldsChange(props: ArticleReleaseComProps, changedFields, allFileds) {
         console.log(props, changedFields, allFileds);
-        // props.onChange(changedFields);
     },
     mapPropsToFields(props: ArticleReleaseComProps) {
         const { title, keyword, type, tags = [], content, publish = 0 } = props.articleDetail;
@@ -128,7 +128,6 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
 
     renderForm = () => {
         const { getFieldDecorator } = this.props.form;
-        const { tags = [] } = this.props.articleDetail;
         return <div className="article-base-info-input">
             <Row gutter={24}>
                 <Col span={12}>
