@@ -37,7 +37,7 @@ interface State {
 }
 
 const { Option } = Select;
-const types = ['', '', ''];
+const types = ['', 'code', '杂谈'];
 
 @(withRouter as any)
 @(connect((state: AppState) => {
@@ -69,10 +69,10 @@ const types = ['', '', ''];
             publish: createFormField([0, 1].includes(+publish))
         };
     },
-    onValuesChange(props: ArticleReleaseComProps, values) {
-        props.setArticleDetail(Object.assign({}, values, {
-            publish: values.publish ? 1 : 2,
-            tags: values.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])
+    onValuesChange(props: ArticleReleaseComProps, _values, allValues) {
+        props.setArticleDetail(Object.assign({}, allValues, {
+            publish: allValues.publish ? 1 : 2,
+            tags: allValues.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])
         }));
     }
 }) as any)
@@ -161,10 +161,10 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                         {getFieldDecorator('type', {
                             rules: [{ message: '请输入文章分类' }]
                         })(
-                            <Input
-                                prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
-                                placeholder="请输入文章分类"
-                            />
+                            <Select placeholder="请选择文章分类">
+                                <Option value={1}>code</Option>
+                                <Option value={2}>杂谈</Option>
+                            </Select>
                         )}
                     </Form.Item>
                 </Col>
