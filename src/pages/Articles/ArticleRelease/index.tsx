@@ -13,7 +13,7 @@ import { getArticleDetail } from '@/store/article/thunks';
 import { getTags } from '@/store/tags/thunks';
 import { GetArticleDetailParams, uploadArticle, updateArticle } from '@/services/article';
 import './index.scss';
-import { GetTagsParams } from '@/services/tag';
+import { GetTagsParams, updateTag } from '@/services/tag';
 
 interface Props {
     // props from redux state
@@ -53,7 +53,7 @@ const types = ['', 'code', '杂谈'];
 }) as any)
 @(Form.create<ArticleReleaseComProps>({
     onFieldsChange(props: ArticleReleaseComProps, changedFields, allFileds) {
-        console.log(props, changedFields, allFileds);
+        // console.log(props, changedFields, allFileds);
     },
     mapPropsToFields(props: ArticleReleaseComProps) {
         const { title, keyword, type, tags = [], content, publish = 0 } = props.articleDetail;
@@ -122,7 +122,12 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
 
     handleArticlePublish = () => {
         this.props.form.validateFields((err, value) => {
-            console.log(err, value);
+            if (!err) {
+                const req = this.props.articleDetail.id ? updateArticle : uploadArticle;
+                req(value).then(res => {
+                    console.log(res);
+                });
+            }
         });
     }
 
@@ -159,7 +164,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                 <Col span={12}>
                     <Form.Item label="文章分类">
                         {getFieldDecorator('type', {
-                            rules: [{ message: '请输入文章分类' }]
+                            rules: [{ required: true, message: '请输入文章分类' }]
                         })(
                             <Select placeholder="请选择文章分类">
                                 <Option value={1}>code</Option>
