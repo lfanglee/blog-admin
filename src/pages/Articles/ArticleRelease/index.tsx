@@ -37,7 +37,6 @@ interface State {
 }
 
 const { Option } = Select;
-const types = ['', 'code', '杂谈'];
 
 @(withRouter as any)
 @(connect((state: AppState) => {
@@ -120,11 +119,16 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
         this.props.setArticleDetail(res.data);
     }
 
-    handleArticlePublish = () => {
+    handleArticleSave = (state: 1 | 2) => {
         this.props.form.validateFields((err, value) => {
             if (!err) {
                 const req = this.props.articleDetail.id ? updateArticle : uploadArticle;
-                req(value).then(res => {
+                req({
+                    state,
+                    ...value,
+                    id: this.props.articleDetail.id,
+                    publish: value.publish ? 1 : 2
+                }).then(res => {
                     console.log(res);
                 });
             }
@@ -229,8 +233,8 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                                     </Form.Item>
                                 </Col>
                                 <Col className="artile-release-btn-group" span={12}>
-                                    <Button>存为草稿</Button>
-                                    <Button type="primary" onClick={this.handleArticlePublish}>发布</Button>
+                                    <Button onClick={() => this.handleArticleSave(2)}>存为草稿</Button>
+                                    <Button type="primary" onClick={() => this.handleArticleSave(1)}>发布</Button>
                                 </Col>
                             </Row>
                         </Card>

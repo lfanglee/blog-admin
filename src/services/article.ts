@@ -92,6 +92,7 @@ export async function uploadArticle(
 
 /**
  * 更新文章（只传需要更新的参数）
+ * @param id 文章ID
  * @param title 文章标题
  * @param keyword 关键词
  * @param content 文章内容
