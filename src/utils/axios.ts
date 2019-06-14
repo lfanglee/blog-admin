@@ -8,6 +8,13 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((data: AxiosRequestConfig) => {
+    const token = JSON.parse(localStorage.getItem('TOKEN'));
+    if (token && token.token) {
+        data.headers = {
+            ...data.headers,
+            Authorization: `TOKEN ${JSON.parse(localStorage.getItem('TOKEN')).token}`
+        };
+    }
     if (['post', 'put', 'delete', 'patch'].includes(data.method)) {
         data.data = queryString.stringify(data.data);
     }
