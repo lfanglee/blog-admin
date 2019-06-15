@@ -1,20 +1,21 @@
 declare var window: Window;
+declare module 'query-string';
 
 declare interface Tag {
     id: string;
     name: string;
     descript: string;
     sort: number;
-    createAt: string;
-    updateAt: string;
+    create_at: string;
+    update_at: string;
 }
 
 declare interface Type {
     id: string;
     name: string;
     descript: string;
-    createAt: string;
-    updateAt: string;
+    create_at: string;
+    update_at: string;
 }
 
 declare interface Article {
@@ -28,8 +29,8 @@ declare interface Article {
     thumb: string;
     type: number;
     tags: Tag[];
-    createAt: string;
-    updateAt: string;
+    create_at: string;
+    update_at: string;
     meta: {
         views: number;
         comments: number;

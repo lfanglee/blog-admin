@@ -167,7 +167,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                         })(
                             <Input
                                 prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
-                                placeholder="请输入文章标题（必须）"
+                                placeholder="请输入文章关键词（以逗号分隔）"
                             />
                         )}
                     </Form.Item>

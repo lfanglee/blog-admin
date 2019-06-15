@@ -30,6 +30,7 @@
                 "SwitchCase": 1
             }
         ],
+        "camelcase": "off",
         "import/extensions": [0, "always", {
             "js": "never",
             "jsx": "never",

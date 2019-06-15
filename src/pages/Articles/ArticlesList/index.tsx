@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Button, Badge, Card, Dropdown, Divider, Icon, Menu, PageHeader, Table } from 'antd';
 import { ColumnProps, PaginationConfig } from 'antd/lib/table';
+import * as moment from 'moment';
+import qs from 'query-string';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import { AppState } from '@/store';
@@ -25,14 +27,15 @@ interface Props {
 interface ColumnRecord {
     key: string;
     title: string;
-    createAt: string;
+    create_at: string;
     views: number;
     type: number;
     state: 1 | 2;
 }
 
 const stateMap = ['', '已发布', '草稿'];
-const typeMap = ['', 'code'];
+const publishMap = ['', '公开', '私有'];
+const typeMap = ['', 'code', '随笔'];
 const statusMap = ['default', 'success', 'processing'];
 
 @(withRouter as any)
@@ -52,7 +55,8 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         render: (text: string) => <a href="/" target="_blank">{text}</a>
     }, {
         title: '发布时间',
-        dataIndex: 'createAt'
+        dataIndex: 'create_at',
+        render: (text: string) => <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
     }, {
         title: '浏览量',
         dataIndex: 'views'
@@ -64,6 +68,10 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         title: '发布状态',
         dataIndex: 'state',
         render: (val: number) => <Badge status={statusMap[val] as any} text={stateMap[val]} />
+    }, {
+        title: '公开/私有',
+        dataIndex: 'publish',
+        render: (val: number) => <Badge status={statusMap[val] as any} text={publishMap[val]} />
     }, {
         title: '操作',
         dataIndex: 'action',
@@ -98,7 +106,12 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
     }
 
     handleListItemEdit = (recordId: string) => {
-        console.log(recordId);
+        this.props.history.push({
+            pathname: '/article/release',
+            search: `?${qs.stringify({
+                id: recordId
+            })}`
+        });
     }
 
     handleListItemMoreAction = (key: string, recordId: string) => {
@@ -124,10 +137,11 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         const dataSource: ColumnRecord[] = this.props.articleList.map((item: Article) => ({
             key: item.id,
             title: item.title,
-            createAt: item.createAt,
+            create_at: item.create_at,
             views: item.meta.views,
             type: item.type,
-            state: item.state
+            state: item.state,
+            publish: item.publish
         }));
         const { total, pageNo: current, pageSize } = this.props.pagination;
         return (

@@ -19,12 +19,12 @@
                         "name": "typescript",
                         "descript": "Javascript的超集",
                         "sort": 1,
-                        "createAt": "2019-03-25T12:16:22.937Z",
-                        "updateAt": "2019-03-25T13:08:04.238Z"
+                        "create_at": "2019-03-25T12:16:22.937Z",
+                        "update_at": "2019-03-25T13:08:04.238Z"
                     }
                 ],
-                "createAt": "2019-03-28T02:51:50.414Z",
-                "updateAt": "2019-03-28T02:51:50.414Z",
+                "create_at": "2019-03-28T02:51:50.414Z",
+                "update_at": "2019-03-28T02:51:50.414Z",
                 "meta": {
                     "views": 0,
                     "comments": 0,
@@ -47,12 +47,12 @@
                         "name": "typescript",
                         "descript": "Javascript的超集",
                         "sort": 1,
-                        "createAt": "2019-03-25T12:16:22.937Z",
-                        "updateAt": "2019-03-25T13:08:04.238Z"
+                        "create_at": "2019-03-25T12:16:22.937Z",
+                        "update_at": "2019-03-25T13:08:04.238Z"
                     }
                 ],
-                "createAt": "2019-03-28T02:51:50.414Z",
-                "updateAt": "2019-03-28T02:51:50.414Z",
+                "create_at": "2019-03-28T02:51:50.414Z",
+                "update_at": "2019-03-28T02:51:50.414Z",
                 "meta": {
                     "views": 0,
                     "comments": 0,

@@ -8,8 +8,10 @@
         }
     }
     .article-content-input {
+        height: calc(100vh - 442px);
         .ant-form-item {
             display: flex;
+            margin-right: 0;
         }
         .ant-form-item-control-wrapper {
             flex: 1;
