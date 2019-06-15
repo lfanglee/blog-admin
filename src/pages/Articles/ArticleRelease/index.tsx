@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin } from 'antd';
+import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin, message, Empty, Divider } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import qs from 'query-string';
 
@@ -10,20 +10,25 @@ import PageLoading from '@/components/PageLoading';
 import { AppState } from '@/store';
 import { setArticleDetail } from '@/store/article/action';
 import { getArticleDetail } from '@/store/article/thunks';
-import { getTags } from '@/store/tags/thunks';
+import { getTags, addTag } from '@/store/tags/thunks';
 import { GetArticleDetailParams, uploadArticle, updateArticle } from '@/services/article';
 import './index.scss';
-import { GetTagsParams, updateTag } from '@/services/tag';
+import { GetTagsParams, PostTagParams } from '@/services/tag';
 
 interface Props {
     // props from redux state
     articleDetail: Article;
     isLoadingArticleData: boolean;
     tagsList: Tag[];
+    isAddingTag: boolean;
     // props from redux dispatch
     getArticleDetail: (params: GetArticleDetailParams) => Promise<Ajax.AjaxResponse<Article>>;
     setArticleDetail: (detail: Partial<Article>) => Partial<Article>;
-    getTags: (params?: GetTagsParams) => Promise<Ajax.AjaxResponse>
+    getTags: (params?: GetTagsParams) => Promise<Ajax.AjaxResponse<{
+        tags: Tag[];
+        pagination: Pagination;
+    }>>;
+    addTag: (params: PostTagParams) => Promise<Ajax.AjaxResponse<Tag>>
 }
 
 type ArticleReleaseComProps = Props & FormComponentProps & RouteComponentProps<{
@@ -43,12 +48,14 @@ const { Option } = Select;
     return {
         articleDetail: state.article.detail,
         isLoadingArticleData: state.article.isLoadingArticleData,
-        tagsList: state.tags.tagsList
+        tagsList: state.tags.tagsList,
+        isAddingTag: state.tags.isAddingTag
     };
 }, {
     getArticleDetail,
     setArticleDetail,
-    getTags
+    getTags,
+    addTag
 }) as any)
 @(Form.create<ArticleReleaseComProps>({
     onFieldsChange(props: ArticleReleaseComProps, changedFields, allFileds) {
@@ -103,34 +110,36 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
         return res;
     }
 
-    uploadArticle = async () => {
-        const res: Ajax.AjaxResponse<Article> = await uploadArticle({
-            ...this.props.articleDetail,
-            tags: this.props.articleDetail.tags.map((i: Tag) => i.id)
-        });
-        this.props.setArticleDetail(res.data);
-    }
+    handleAddTagClick = () => {
 
-    updateArticle = async () => {
-        const res: Ajax.AjaxResponse<Article> = await updateArticle({
-            ...this.props.articleDetail,
-            tags: this.props.articleDetail.tags.map((i: Tag) => i.id)
-        });
-        this.props.setArticleDetail(res.data);
     }
 
     handleArticleSave = (state: 1 | 2) => {
-        this.props.form.validateFields((err, value) => {
+        if (this.state.loading) {
+            return;
+        }
+        this.props.form.validateFields(async (err, value) => {
             if (!err) {
+                this.setState({ loading: true });
                 const req = this.props.articleDetail.id ? updateArticle : uploadArticle;
-                req({
+                console.log(value);
+                const res = await req({
                     state,
                     ...value,
                     id: this.props.articleDetail.id,
-                    publish: value.publish ? 1 : 2
-                }).then(res => {
-                    console.log(res);
+                    publish: value.publish ? 1 : 2,
+                    tags: value.tags.join(',')
                 });
+                if (res.code === 0) {
+                    message.success(`文章${this.props.articleDetail.id ? '更新' : '发布'}成功`);
+                    this.props.history.replace({
+                        search: `?${qs.stringify({
+                            id: res.data.id
+                        })}`
+                    });
+                    this.props.setArticleDetail(res.data);
+                }
+                this.setState({ loading: false });
             }
         });
     }
@@ -182,10 +191,23 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                         {getFieldDecorator('tags', {
                             rules: [{ required: false, message: '请输入文章标签', type: 'array' }]
                         })(
-                            <Select mode="multiple" placeholder="请选择文章的标签">
-                                {
-                                    this.props.tagsList
+                            <Select
+                                mode="multiple"
+                                placeholder="请选择文章的标签"
+                                dropdownRender={(menu: React.ReactNode) => (
+                                    <div>
+                                        <div style={{ padding: '8px', cursor: 'pointer', textAlign: 'center' }} onClick={this.handleAddTagClick}>
+                                            <Icon type="plus" /> 新增标签
+                                        </div>
+                                        <Divider style={{ margin: '4px 0' }} />
+                                        {menu}
+                                    </div>
+                                )}
+                            >
+                                {this.props.tagsList.length
+                                    ? this.props.tagsList
                                         .map((item: Tag) => <Option key={item.id} value={item.id}>{item.name}</Option>)
+                                    : null
                                 }
                             </Select>
                         )}
@@ -234,7 +256,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                                 </Col>
                                 <Col className="artile-release-btn-group" span={12}>
                                     <Button onClick={() => this.handleArticleSave(2)}>存为草稿</Button>
-                                    <Button type="primary" onClick={() => this.handleArticleSave(1)}>发布</Button>
+                                    <Button type="primary" onClick={() => this.handleArticleSave(1)}>{this.props.articleDetail.id ? '更新' : '发布'}</Button>
                                 </Col>
                             </Row>
                         </Card>

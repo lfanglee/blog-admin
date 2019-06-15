@@ -7,7 +7,7 @@ export interface GetArticleListParams {
     keyword?: string;
     state?: 1 | 2;
     publish?: 1 | 2;
-    tag?: string[];  // 标签ID列表
+    tag?: string;  // 标签ID列表
 }
 
 export interface GetArticleDetailParams {
@@ -25,7 +25,7 @@ export interface PostArticleParams {
     state?: 1 | 2;
     publish?: 1 | 2;
     type?: number;
-    tags?: string[];  // 标签ID列表
+    tags?: string;  // 标签ID列表
 }
 
 export type PatchArticleParams = Partial<PostArticleParams> & {
