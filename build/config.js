@@ -14,6 +14,6 @@ module.exports = {
     pro: {
         env: '"production"',
         outputPath: path.resolve(__dirname, '../dist'),
-        outputPublicPath: './'
+        outputPublicPath: '/'
     }
 };

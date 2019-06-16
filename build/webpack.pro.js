@@ -27,7 +27,8 @@ module.exports = merge(baseConfig, {
                 collapseWhitespace: true,
                 removeComments: true,
                 removeAttributeQuotes: true
-            }
+            },
+            mode: 'production'
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].[hash:7].css'

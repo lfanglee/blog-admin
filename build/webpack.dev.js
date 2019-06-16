@@ -45,7 +45,8 @@ module.exports = merge(baseConfig, {
             filename: 'index.html',
             template: path.resolve(__dirname, '../public/index.html'),
             title: 'blog-admin',
-            inject: true
+            inject: true,
+            mode: 'development'
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].[hash:7].css'
