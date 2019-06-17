@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin, message, Empty, Divider } from 'antd';
+import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin, message, Empty, Divider, Modal } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import qs from 'query-string';
 
@@ -39,9 +39,32 @@ interface State {
     inited: boolean;
     loading: boolean;
     articleId: string;
+    createTagModalVisible: boolean;
 }
 
+type NewTagModalProps = {
+    modalVisible: boolean;
+} & FormComponentProps;
+
 const { Option } = Select;
+
+const CreateTagForm = Form.create()((props: NewTagModalProps) => {
+    const { modalVisible, form } = props;
+    return (
+        <Modal
+            destroyOnClose
+            title="新建标签"
+            visible={modalVisible}
+            onCancel={() => {}}
+        >
+            <Form.Item label="标签名">
+                {form.getFieldDecorator('tagName', {
+                    rules: [{ required: true, message: '请输入标签名' }]
+                })(<Input placeholder="请输入标签名" />)}
+            </Form.Item>
+        </Modal>
+    );
+});
 
 @(withRouter as any)
 @(connect((state: AppState) => {
@@ -88,7 +111,8 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
     state = {
         inited: false,
         loading: false,
-        articleId: this.query.id
+        articleId: this.query.id,
+        createTagModalVisible: false
     };
 
     async componentWillMount() {
@@ -111,7 +135,8 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
     }
 
     handleAddTagClick = () => {
-
+        console.log(1);
+        this.setState({ createTagModalVisible: true });
     }
 
     handleArticleSave = (state: 1 | 2) => {
@@ -262,6 +287,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                         </Card>
                     </Form>
                 </Spin>
+                <CreateTagForm modalVisible={this.state.createTagModalVisible} />
             </div>
         ) : <PageLoading />;
     }
