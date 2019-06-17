@@ -42,25 +42,45 @@ interface State {
     createTagModalVisible: boolean;
 }
 
+interface NewTag {
+    tagName: string;
+    tagDescript: string;
+}
+
 type NewTagModalProps = {
     modalVisible: boolean;
+    handleModalVisible: () => void;
+    handleAddTag: (tag: NewTag) => void;
 } & FormComponentProps;
 
 const { Option } = Select;
 
 const CreateTagForm = Form.create()((props: NewTagModalProps) => {
-    const { modalVisible, form } = props;
+    const { modalVisible, form, handleModalVisible, handleAddTag } = props;
+    const handleOk = () => {
+        form.validateFields((err, value: NewTag) => {
+            if (err) { return; }
+            form.resetFields();
+            handleAddTag(value);
+        });
+    };
     return (
         <Modal
             destroyOnClose
             title="新建标签"
             visible={modalVisible}
-            onCancel={() => {}}
+            onCancel={handleModalVisible}
+            onOk={handleOk}
         >
-            <Form.Item label="标签名">
+            <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标签名">
                 {form.getFieldDecorator('tagName', {
                     rules: [{ required: true, message: '请输入标签名' }]
                 })(<Input placeholder="请输入标签名" />)}
+            </Form.Item>
+            <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标签描述">
+                {form.getFieldDecorator('tagDescript', {
+                    rules: [{ required: true, message: '请输入标签描述' }]
+                })(<Input placeholder="请输入标签描述" />)}
             </Form.Item>
         </Modal>
     );
@@ -135,8 +155,19 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
     }
 
     handleAddTagClick = () => {
-        console.log(1);
         this.setState({ createTagModalVisible: true });
+    }
+
+    handleAddTag = async (tag: NewTag) => {
+        this.handleCreateTagModalVisible();
+        await this.props.addTag({
+            name: tag.tagName,
+            descript: tag.tagName
+        });
+    }
+
+    handleCreateTagModalVisible = () => {
+        this.setState({ createTagModalVisible: false });
     }
 
     handleArticleSave = (state: 1 | 2) => {
@@ -221,7 +252,11 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                                 placeholder="请选择文章的标签"
                                 dropdownRender={(menu: React.ReactNode) => (
                                     <div>
-                                        <div style={{ padding: '8px', cursor: 'pointer', textAlign: 'center' }} onClick={this.handleAddTagClick}>
+                                        <div
+                                            style={{ padding: '8px', cursor: 'pointer', textAlign: 'center' }}
+                                            onMouseDown={e => e.preventDefault()}
+                                            onClick={this.handleAddTagClick}
+                                        >
                                             <Icon type="plus" /> 新增标签
                                         </div>
                                         <Divider style={{ margin: '4px 0' }} />
@@ -287,7 +322,11 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                         </Card>
                     </Form>
                 </Spin>
-                <CreateTagForm modalVisible={this.state.createTagModalVisible} />
+                <CreateTagForm
+                    modalVisible={this.state.createTagModalVisible}
+                    handleModalVisible={this.handleCreateTagModalVisible}
+                    handleAddTag={this.handleAddTag}
+                />
             </div>
         ) : <PageLoading />;
     }

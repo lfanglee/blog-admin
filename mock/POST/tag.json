@@ -1,0 +1,11 @@
+{
+    "code": 0,
+    "message": "成功！",
+    "data": {
+        "id": "5ca075b8bc0a6a046f1c473f",
+        "name": "typescript",
+        "descript": "Javascript的超集",
+        "create_at": "2019-03-31T08:09:28.532Z",
+        "update_at": "2019-03-31T08:09:28.532Z"
+    }
+}
