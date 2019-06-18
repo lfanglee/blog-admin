@@ -44,7 +44,7 @@ export default class Tags extends BaseComponent<Props, State> {
     render() {
         return this.state.inited ? (
             <div className="page c-page-tags">
-                <PageHeader title="标签管睆" />
+                <PageHeader title="标签管理" />
             </div>
         ) : <PageLoading />;
     }

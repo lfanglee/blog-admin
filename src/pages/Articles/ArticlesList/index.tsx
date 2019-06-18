@@ -52,29 +52,36 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
     private columns: ColumnProps<ColumnRecord>[] = [{
         title: '文章标题',
         dataIndex: 'title',
+        width: 240,
         render: (text: string) => <a href="/" target="_blank">{text}</a>
     }, {
         title: '发布时间',
         dataIndex: 'create_at',
+        width: 160,
         render: (text: string) => <div>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
     }, {
         title: '浏览量',
-        dataIndex: 'views'
+        dataIndex: 'views',
+        width: 80
     }, {
         title: '所属分类',
         dataIndex: 'type',
+        width: 100,
         render: (type: number) => <div>{typeMap[type]}</div>
     }, {
         title: '发布状态',
         dataIndex: 'state',
+        width: 100,
         render: (val: number) => <Badge status={statusMap[val] as any} text={stateMap[val]} />
     }, {
         title: '公开/私有',
         dataIndex: 'publish',
+        width: 100,
         render: (val: number) => <Badge status={statusMap[val] as any} text={publishMap[val]} />
     }, {
         title: '操作',
         dataIndex: 'action',
+        width: 150,
         render: (text: string, record: ColumnRecord) => <div>
             <a onClick={() => this.handleListItemEdit(record.key)}>
                 编辑
