@@ -1,15 +1,15 @@
-import { GetArticleActionTypes, SetArticleDetail } from './types';
-import { GET_ARTICLE_DETAIL_REQUEST, GET_ARTICLE_DETAIL_SUCCESS, GET_ARTICLE_DETAIL_FAIL, SET_ARTICLE_DETAIL } from '@/constants';
+import { GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes } from './types';
+import * as actionTypes from '@/constants';
 
 export function getArticleDetail(): GetArticleActionTypes {
     return {
-        type: GET_ARTICLE_DETAIL_REQUEST
+        type: actionTypes.GET_ARTICLE_DETAIL_REQUEST
     };
 }
 
 export function getArticleDetailSuccess(detail: Article): GetArticleActionTypes {
     return {
-        type: GET_ARTICLE_DETAIL_SUCCESS,
+        type: actionTypes.GET_ARTICLE_DETAIL_SUCCESS,
         payload: {
             detail
         }
@@ -18,15 +18,57 @@ export function getArticleDetailSuccess(detail: Article): GetArticleActionTypes 
 
 export function getArticleDetailFail(): GetArticleActionTypes {
     return {
-        type: GET_ARTICLE_DETAIL_FAIL
+        type: actionTypes.GET_ARTICLE_DETAIL_FAIL
     };
 }
 
 export function setArticleDetail(detail: Article): SetArticleDetail {
     return {
-        type: SET_ARTICLE_DETAIL,
+        type: actionTypes.SET_ARTICLE_DETAIL,
         payload: {
             detail
         }
+    };
+}
+
+export function addArticle(): AddArticleActionTypes {
+    return {
+        type: actionTypes.ADD_ARTICLE_REQUEST
+    };
+}
+
+export function addArticleSuccess(detail: Article): AddArticleActionTypes {
+    return {
+        type: actionTypes.ADD_ARTICLE_SUCCESS,
+        payload: {
+            detail
+        }
+    };
+}
+
+export function addArticleFail(): AddArticleActionTypes {
+    return {
+        type: actionTypes.ADD_ARTICLE_FAIL
+    };
+}
+
+export function updateArticle(): UpdateArticleActionTypes {
+    return {
+        type: actionTypes.UPDATE_ARTICLE_REQUEST
+    };
+}
+
+export function updateArticleSuccess(detail: Article): UpdateArticleActionTypes {
+    return {
+        type: actionTypes.UPDATE_ARTICLE_SUCCESS,
+        payload: {
+            detail
+        }
+    };
+}
+
+export function updateArticleFail(): UpdateArticleActionTypes {
+    return {
+        type: actionTypes.UPDATE_ARTICLE_FAIL
     };
 }

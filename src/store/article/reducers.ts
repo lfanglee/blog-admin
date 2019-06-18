@@ -1,10 +1,5 @@
-import { ArticleStore, GetArticleActionTypes, SetArticleDetail } from './types';
-import {
-    GET_ARTICLE_DETAIL_REQUEST,
-    GET_ARTICLE_DETAIL_SUCCESS,
-    GET_ARTICLE_DETAIL_FAIL,
-    SET_ARTICLE_DETAIL
-} from '@/constants';
+import { ArticleStore, GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes } from './types';
+import * as actionTypes from '@/constants';
 
 const initialState: ArticleStore = {
     detail: {},
@@ -13,33 +8,49 @@ const initialState: ArticleStore = {
 
 export default function articleReducer(
     state: ArticleStore = initialState,
-    action: GetArticleActionTypes | SetArticleDetail
+    action: GetArticleActionTypes | SetArticleDetail | AddArticleActionTypes | UpdateArticleActionTypes
 ): ArticleStore {
     switch (action.type) {
-        case GET_ARTICLE_DETAIL_REQUEST:
+        case actionTypes.GET_ARTICLE_DETAIL_REQUEST:
             return {
                 ...state,
                 isLoadingArticleData: true
             };
-        case GET_ARTICLE_DETAIL_SUCCESS:
+        case actionTypes.GET_ARTICLE_DETAIL_SUCCESS:
             return {
                 ...state,
                 isLoadingArticleData: false,
                 detail: action.payload.detail
             };
-        case GET_ARTICLE_DETAIL_FAIL:
+        case actionTypes.GET_ARTICLE_DETAIL_FAIL:
             return {
                 ...state,
                 isLoadingArticleData: false,
                 detail: {}
             };
-        case SET_ARTICLE_DETAIL:
+        case actionTypes.SET_ARTICLE_DETAIL:
             return {
                 ...state,
                 detail: {
                     ...state.detail,
                     ...action.payload.detail
                 }
+            };
+        case actionTypes.ADD_ARTICLE_REQUEST:
+            return {
+                ...state,
+                isLoadingArticleData: true
+            };
+        case actionTypes.ADD_ARTICLE_SUCCESS:
+            return {
+                ...state,
+                isLoadingArticleData: false,
+                detail: action.payload.detail
+            };
+        case actionTypes.ADD_ARTICLE_FAIL:
+            return {
+                ...state,
+                isLoadingArticleData: false
             };
         default:
             return state;

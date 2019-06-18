@@ -9,11 +9,11 @@ import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
 import { AppState } from '@/store';
 import { setArticleDetail } from '@/store/article/action';
-import { getArticleDetail } from '@/store/article/thunks';
+import { getArticleDetail, addArticle, updateArticle } from '@/store/article/thunks';
 import { getTags, addTag } from '@/store/tags/thunks';
-import { GetArticleDetailParams, uploadArticle, updateArticle } from '@/services/article';
-import './index.scss';
+import { GetArticleDetailParams, PostArticleParams, PatchArticleParams } from '@/services/article';
 import { GetTagsParams, PostTagParams } from '@/services/tag';
+import './index.scss';
 
 interface Props {
     // props from redux state
@@ -23,6 +23,8 @@ interface Props {
     isAddingTag: boolean;
     // props from redux dispatch
     getArticleDetail: (params: GetArticleDetailParams) => Promise<Ajax.AjaxResponse<Article>>;
+    addArticle: (params: PostArticleParams) => Promise<Ajax.AjaxResponse<Article>>;
+    updateArticle: (params: PatchArticleParams) => Promise<Ajax.AjaxResponse<Article>>;
     setArticleDetail: (detail: Partial<Article>) => Partial<Article>;
     getTags: (params?: GetTagsParams) => Promise<Ajax.AjaxResponse<{
         tags: Tag[];
@@ -37,7 +39,6 @@ type ArticleReleaseComProps = Props & FormComponentProps & RouteComponentProps<{
 
 interface State {
     inited: boolean;
-    loading: boolean;
     articleId: string;
     createTagModalVisible: boolean;
 }
@@ -96,6 +97,8 @@ const CreateTagForm = Form.create()((props: NewTagModalProps) => {
     };
 }, {
     getArticleDetail,
+    addArticle,
+    updateArticle,
     setArticleDetail,
     getTags,
     addTag
@@ -130,7 +133,6 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
 
     state = {
         inited: false,
-        loading: false,
         articleId: this.query.id,
         createTagModalVisible: false
     };
@@ -160,10 +162,13 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
 
     handleAddTag = async (tag: NewTag) => {
         this.handleCreateTagModalVisible();
-        await this.props.addTag({
+        const res: Ajax.AjaxResponse<Tag> = await this.props.addTag({
             name: tag.tagName,
             descript: tag.tagName
         });
+        if (res.code === 0) {
+            message.success('新增标签成功！');
+        }
     }
 
     handleCreateTagModalVisible = () => {
@@ -171,14 +176,13 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
     }
 
     handleArticleSave = (state: 1 | 2) => {
-        if (this.state.loading) {
+        const { isLoadingArticleData, updateArticle: updateArticleReq, addArticle: addArticleReq } = this.props;
+        if (isLoadingArticleData) {
             return;
         }
         this.props.form.validateFields(async (err, value) => {
             if (!err) {
-                this.setState({ loading: true });
-                const req = this.props.articleDetail.id ? updateArticle : uploadArticle;
-                console.log(value);
+                const req = this.props.articleDetail.id ? updateArticleReq : addArticleReq;
                 const res = await req({
                     state,
                     ...value,
@@ -193,9 +197,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                             id: res.data.id
                         })}`
                     });
-                    this.props.setArticleDetail(res.data);
                 }
-                this.setState({ loading: false });
             }
         });
     }
@@ -282,7 +284,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
         return this.state.inited ? (
             <div className="page c-page-article-release">
                 <PageHeader title="文章发布" />
-                <Spin spinning={this.state.loading}>
+                <Spin spinning={this.props.isLoadingArticleData}>
                     <Form layout="inline" labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
                         <Card bordered={false}>
                             {this.renderForm()}
