@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router';
-import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin, message, Empty, Divider, Modal } from 'antd';
+import { withRouter, RouteComponentProps, Prompt } from 'react-router';
+import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin, message, Divider, Modal } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import qs from 'query-string';
 
@@ -41,6 +41,7 @@ interface State {
     inited: boolean;
     articleId: string;
     createTagModalVisible: boolean;
+    isArticleSubmited: boolean;
 }
 
 interface NewTag {
@@ -86,6 +87,13 @@ const CreateTagForm = Form.create()((props: NewTagModalProps) => {
         </Modal>
     );
 });
+
+const windowUnloadListener = (e: Event) => {
+    const tip = '文章未保存，确定离开吗？';
+    e.preventDefault();
+    ((e || window.event) as any).returnValue = tip;
+    return tip;
+};
 
 @(withRouter as any)
 @(connect((state: AppState) => {
@@ -134,7 +142,8 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
     state = {
         inited: false,
         articleId: this.query.id,
-        createTagModalVisible: false
+        createTagModalVisible: false,
+        isArticleSubmited: false
     };
 
     async componentWillMount() {
@@ -147,6 +156,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
             await this.props.getTags();
         }
         this.setState({ inited: true });
+        window.addEventListener('beforeunload', windowUnloadListener);
     }
 
     fetchArticleData = async () => {
@@ -197,6 +207,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                             id: res.data.id
                         })}`
                     });
+                    this.setState({ isArticleSubmited: true });
                 }
             }
         });
@@ -283,6 +294,10 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
         const { getFieldDecorator } = this.props.form;
         return this.state.inited ? (
             <div className="page c-page-article-release">
+                <Prompt
+                    when={!this.state.isArticleSubmited}
+                    message={location => '文章未保存，确定离开吗？'}
+                />
                 <PageHeader title="文章发布" />
                 <Spin spinning={this.props.isLoadingArticleData}>
                     <Form layout="inline" labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
