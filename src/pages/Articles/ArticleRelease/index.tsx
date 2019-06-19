@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps, Prompt } from 'react-router';
+import { withRouter, Prompt } from 'react-router';
 import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin, message, Divider, Modal } from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
 import qs from 'query-string';
 
 import BaseComponent from '@/pages/components/BaseComponent';
@@ -11,53 +10,12 @@ import { AppState } from '@/store';
 import { setArticleDetail } from '@/store/article/action';
 import { getArticleDetail, addArticle, updateArticle } from '@/store/article/thunks';
 import { getTags, addTag } from '@/store/tags/thunks';
-import { GetArticleDetailParams, PostArticleParams, PatchArticleParams } from '@/services/article';
-import { GetTagsParams, PostTagParams } from '@/services/tag';
+import { State, ArticleReleaseComProps, NewTag, NewTagModalProps } from './interface';
 import './index.scss';
-
-interface Props {
-    // props from redux state
-    articleDetail: Article;
-    isLoadingArticleData: boolean;
-    tagsList: Tag[];
-    isAddingTag: boolean;
-    // props from redux dispatch
-    getArticleDetail: (params: GetArticleDetailParams) => Promise<Ajax.AjaxResponse<Article>>;
-    addArticle: (params: PostArticleParams) => Promise<Ajax.AjaxResponse<Article>>;
-    updateArticle: (params: PatchArticleParams) => Promise<Ajax.AjaxResponse<Article>>;
-    setArticleDetail: (detail: Partial<Article>) => Partial<Article>;
-    getTags: (params?: GetTagsParams) => Promise<Ajax.AjaxResponse<{
-        tags: Tag[];
-        pagination: Pagination;
-    }>>;
-    addTag: (params: PostTagParams) => Promise<Ajax.AjaxResponse<Tag>>
-}
-
-type ArticleReleaseComProps = Props & FormComponentProps & RouteComponentProps<{
-    id: string
-}>;
-
-interface State {
-    inited: boolean;
-    articleId: string;
-    createTagModalVisible: boolean;
-    isArticleSubmited: boolean;
-}
-
-interface NewTag {
-    tagName: string;
-    tagDescript: string;
-}
-
-type NewTagModalProps = {
-    modalVisible: boolean;
-    handleModalVisible: () => void;
-    handleAddTag: (tag: NewTag) => void;
-} & FormComponentProps;
 
 const { Option } = Select;
 
-const CreateTagForm = Form.create()((props: NewTagModalProps) => {
+const CreateTagForm = Form.create<NewTagModalProps>()((props: NewTagModalProps) => {
     const { modalVisible, form, handleModalVisible, handleAddTag } = props;
     const handleOk = () => {
         form.validateFields((err, value: NewTag) => {
@@ -157,6 +115,10 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
         }
         this.setState({ inited: true });
         window.addEventListener('beforeunload', windowUnloadListener);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', windowUnloadListener);
     }
 
     fetchArticleData = async () => {
