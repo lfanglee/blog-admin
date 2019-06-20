@@ -1,18 +1,15 @@
-import {
-    GET_TAGS_REQUEST, GET_TAGS_SUCCESS, GET_TAGS_FAIL,
-    ADD_TAG_REQUEST, ADD_TAG_SUCCESS, ADD_TAG_FAIL
-} from '@/constants';
-import { AddTagActionTypes, GetTagsActionTypes } from './types';
+import * as actionTypes from '@/constants';
+import { AddTagActionTypes, GetTagsActionTypes, UpdateTagActionTypes, DeleteTagActionTypes } from './types';
 
 export function getTags(): GetTagsActionTypes {
     return {
-        type: GET_TAGS_REQUEST
+        type: actionTypes.GET_TAGS_REQUEST
     };
 }
 
 export function getTagsSuccess(list: Tag[]): GetTagsActionTypes {
     return {
-        type: GET_TAGS_SUCCESS,
+        type: actionTypes.GET_TAGS_SUCCESS,
         payload: {
             list
         }
@@ -21,19 +18,19 @@ export function getTagsSuccess(list: Tag[]): GetTagsActionTypes {
 
 export function getTagsFail(): GetTagsActionTypes {
     return {
-        type: GET_TAGS_FAIL
+        type: actionTypes.GET_TAGS_FAIL
     };
 }
 
 export function addTag(): AddTagActionTypes {
     return {
-        type: ADD_TAG_REQUEST
+        type: actionTypes.ADD_TAG_REQUEST
     };
 }
 
 export function addTagSuccess(tag: Tag): AddTagActionTypes {
     return {
-        type: ADD_TAG_SUCCESS,
+        type: actionTypes.ADD_TAG_SUCCESS,
         payload: {
             tag
         }
@@ -42,6 +39,48 @@ export function addTagSuccess(tag: Tag): AddTagActionTypes {
 
 export function addTagFail(): AddTagActionTypes {
     return {
-        type: ADD_TAG_FAIL
+        type: actionTypes.ADD_TAG_FAIL
+    };
+}
+
+export function updateTag(): UpdateTagActionTypes {
+    return {
+        type: actionTypes.UPDATE_TAG_REQUEST
+    };
+}
+
+export function updateTagSuccess(tag: Tag): UpdateTagActionTypes {
+    return {
+        type: actionTypes.UPDATE_TAG_SUCCESS,
+        payload: {
+            tag
+        }
+    };
+}
+
+export function updateTagFail(): UpdateTagActionTypes {
+    return {
+        type: actionTypes.UPDATE_TAG_FAIL
+    };
+}
+
+export function deleteTag(): DeleteTagActionTypes {
+    return {
+        type: actionTypes.DELETE_TAG_REQUEST
+    };
+}
+
+export function deleteTagSuccess(tag: Tag): DeleteTagActionTypes {
+    return {
+        type: actionTypes.DELETE_TAG_SUCCESS,
+        payload: {
+            tag
+        }
+    };
+}
+
+export function deleteTagFail(): DeleteTagActionTypes {
+    return {
+        type: actionTypes.DELETE_TAG_FAIL
     };
 }

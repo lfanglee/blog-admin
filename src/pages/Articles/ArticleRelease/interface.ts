@@ -8,7 +8,7 @@ export interface Props {
     articleDetail: Article;
     isLoadingArticleData: boolean;
     tagsList: Tag[];
-    isAddingTag: boolean;
+    isLoadingTagData: boolean;
     // props from redux dispatch
     getArticleDetail: (params: GetArticleDetailParams) => Promise<Ajax.AjaxResponse<Article>>;
     addArticle: (params: PostArticleParams) => Promise<Ajax.AjaxResponse<Article>>;

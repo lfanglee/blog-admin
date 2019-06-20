@@ -6,8 +6,7 @@ import {
 
 const initialState: Tags = {
     tagsList: [],
-    isLoadingTagsListData: false,
-    isAddingTag: false
+    isLoadingTagData: false
 };
 
 export default function tagsReducer(
@@ -18,35 +17,35 @@ export default function tagsReducer(
         case GET_TAGS_REQUEST:
             return {
                 ...state,
-                isLoadingTagsListData: true
+                isLoadingTagData: true
             };
         case GET_TAGS_SUCCESS:
             return {
                 ...state,
-                isLoadingTagsListData: false,
+                isLoadingTagData: false,
                 tagsList: action.payload.list
             };
         case GET_TAGS_FAIL:
             return {
                 ...state,
-                isLoadingTagsListData: false,
+                isLoadingTagData: false,
                 tagsList: []
             };
         case ADD_TAG_REQUEST:
             return {
                 ...state,
-                isAddingTag: true
+                isLoadingTagData: true
             };
         case ADD_TAG_SUCCESS:
             return {
                 ...state,
-                isAddingTag: false,
+                isLoadingTagData: false,
                 tagsList: state.tagsList.concat(action.payload.tag)
             };
         case ADD_TAG_FAIL:
             return {
                 ...state,
-                isAddingTag: false
+                isLoadingTagData: false
             };
         default:
             return state;

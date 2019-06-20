@@ -59,7 +59,7 @@ const windowUnloadListener = (e: Event) => {
         articleDetail: state.article.detail,
         isLoadingArticleData: state.article.isLoadingArticleData,
         tagsList: state.tags.tagsList,
-        isAddingTag: state.tags.isAddingTag
+        isLoadingTagData: state.tags.isLoadingTagData
     };
 }, {
     getArticleDetail,
@@ -225,6 +225,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                             <Select
                                 mode="multiple"
                                 placeholder="请选择文章的标签"
+                                notFoundContent={this.props.isLoadingTagData ? <Spin size="small" /> : null}
                                 dropdownRender={(menu: React.ReactNode) => (
                                     <div>
                                         <div

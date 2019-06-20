@@ -1,41 +1,74 @@
-import { GET_TAGS_REQUEST, GET_TAGS_SUCCESS, GET_TAGS_FAIL, ADD_TAG_REQUEST, ADD_TAG_SUCCESS, ADD_TAG_FAIL } from '@/constants';
+import * as actionTypes from '@/constants';
 
 export interface Tags {
     tagsList: Tag[];
-    isLoadingTagsListData: boolean;
-    isAddingTag: boolean;
+    isLoadingTagData: boolean;
 }
 
 export interface GetTagsAction {
-    type: GET_TAGS_REQUEST;
+    type: actionTypes.GET_TAGS_REQUEST;
 }
 
 export interface GetTagsSuccessAction {
-    type: GET_TAGS_SUCCESS;
+    type: actionTypes.GET_TAGS_SUCCESS;
     payload: {
         list: Tag[];
     };
 }
 
 export interface GetTagsFailAction {
-    type: GET_TAGS_FAIL;
+    type: actionTypes.GET_TAGS_FAIL;
 }
 
 export type GetTagsActionTypes = GetTagsAction | GetTagsSuccessAction | GetTagsFailAction;
 
 export interface AddTagAction {
-    type: ADD_TAG_REQUEST;
+    type: actionTypes.ADD_TAG_REQUEST;
 }
 
 export interface AddTagSuccessAction {
-    type: ADD_TAG_SUCCESS;
+    type: actionTypes.ADD_TAG_SUCCESS;
     payload: {
         tag: Tag;
     };
 }
 
 export interface AddTagFailAction {
-    type: ADD_TAG_FAIL;
+    type: actionTypes.ADD_TAG_FAIL;
 }
 
 export type AddTagActionTypes = AddTagAction | AddTagSuccessAction | AddTagFailAction;
+
+export interface UpdateTagAction {
+    type: actionTypes.UPDATE_TAG_REQUEST;
+}
+
+export interface UpdateTagSuccessAction {
+    type: actionTypes.UPDATE_TAG_SUCCESS;
+    payload: {
+        tag: Tag;
+    };
+}
+
+export interface UpdateTagFailAction {
+    type: actionTypes.UPDATE_TAG_FAIL;
+}
+
+export type UpdateTagActionTypes = UpdateTagAction | UpdateTagSuccessAction | UpdateTagFailAction;
+
+export interface DeleteTagAction {
+    type: actionTypes.DELETE_TAG_REQUEST;
+}
+
+export interface DeleteTagSuccessAction {
+    type: actionTypes.DELETE_TAG_SUCCESS;
+    payload: {
+        tag: Tag;
+    };
+}
+
+export interface DeleteTagFailAction {
+    type: actionTypes.DELETE_TAG_FAIL;
+}
+
+export type DeleteTagActionTypes = DeleteTagAction | DeleteTagSuccessAction | DeleteTagFailAction;

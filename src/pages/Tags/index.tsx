@@ -13,7 +13,7 @@ import './index.scss';
 interface Props {
     // props from redux state
     tagsList: Tag[];
-    isLoadingTagsListData: boolean;
+    isLoadingTagData: boolean;
     // props from redux dispatch
     getTags: (params?: GetTagsParams) => Promise<Ajax.AjaxResponse<{
         list: Tag[];
@@ -23,6 +23,7 @@ interface Props {
 
 interface State {
     inited: boolean;
+    modalVisible: boolean;
 }
 
 const CreateTagForm = Form.create<NewTagModalProps>()((props: NewTagModalProps) => {
@@ -59,14 +60,15 @@ const CreateTagForm = Form.create<NewTagModalProps>()((props: NewTagModalProps) 
 @(connect((state: AppState) => {
     return {
         tagsList: state.tags.tagsList,
-        isLoadingTagsListData: state.tags.isLoadingTagsListData
+        isLoadingTagData: state.tags.isLoadingTagData
     };
 }, {
     getTags
 }) as any)
 export default class Tags extends BaseComponent<Props, State> {
     state = {
-        inited: false
+        inited: false,
+        modalVisible: false
     }
 
     async componentWillMount() {
@@ -74,15 +76,19 @@ export default class Tags extends BaseComponent<Props, State> {
         this.setState({ inited: true });
     }
 
+    handleModalVisible = () => {
+        this.setState({ modalVisible: false });
+    }
+
     render() {
-        const { isLoadingTagsListData, tagsList } = this.props;
+        const { isLoadingTagData, tagsList } = this.props;
         return this.state.inited ? (
             <div className="page c-page-tags">
                 <PageHeader title="标签管理" />
                 <div className="page-content tags-card-list">
                     <List
                         rowKey="id"
-                        loading={isLoadingTagsListData}
+                        loading={isLoadingTagData}
                         grid={{ gutter: 16, lg: 6, md: 4, sm: 4, xs: 1 }}
                         dataSource={['', ...tagsList]}
                         renderItem={(item: Tag) => (
