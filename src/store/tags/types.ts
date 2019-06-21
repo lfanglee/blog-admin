@@ -63,7 +63,7 @@ export interface DeleteTagAction {
 export interface DeleteTagSuccessAction {
     type: actionTypes.DELETE_TAG_SUCCESS;
     payload: {
-        tag: Tag;
+        id: string;
     };
 }
 

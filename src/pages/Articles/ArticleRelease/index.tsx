@@ -16,12 +16,12 @@ import './index.scss';
 const { Option } = Select;
 
 const CreateTagForm = Form.create<NewTagModalProps>()((props: NewTagModalProps) => {
-    const { modalVisible, form, handleModalVisible, handleAddTag } = props;
+    const { modalVisible, form, handleModalVisible, handleOk: handleOkClick } = props;
     const handleOk = () => {
         form.validateFields((err, value: NewTag) => {
             if (err) { return; }
             form.resetFields();
-            handleAddTag(value);
+            handleOkClick(value);
         });
     };
     return (
@@ -305,7 +305,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                 <CreateTagForm
                     modalVisible={this.state.createTagModalVisible}
                     handleModalVisible={this.handleCreateTagModalVisible}
-                    handleAddTag={this.handleAddTag}
+                    handleOk={this.handleAddTag}
                 />
             </div>
         ) : <PageLoading />;

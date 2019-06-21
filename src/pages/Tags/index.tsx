@@ -6,39 +6,33 @@ import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
 import { AppState } from '@/store';
 import { getTags } from '@/store/tags/thunks';
-import { GetTagsParams } from '@/services/tag';
-import { NewTag, NewTagModalProps } from '@/pages/Articles/ArticleRelease/interface';
+import { Props, State, ModalTypes, TagFields, TagModalWrapperProps, TagModalProps } from './interface';
 import './index.scss';
 
-interface Props {
-    // props from redux state
-    tagsList: Tag[];
-    isLoadingTagData: boolean;
-    // props from redux dispatch
-    getTags: (params?: GetTagsParams) => Promise<Ajax.AjaxResponse<{
-        list: Tag[];
-        pagination: Pagination;
-    }>>;
-}
-
-interface State {
-    inited: boolean;
-    modalVisible: boolean;
-}
-
-const CreateTagForm = Form.create<NewTagModalProps>()((props: NewTagModalProps) => {
-    const { modalVisible, form, handleModalVisible, handleAddTag } = props;
+const CreateTagForm = Form.create<TagModalProps>({
+    mapPropsToFields(props: TagModalProps) {
+        const { tagName, tagDescript } = props.initialValue;
+        const createFormField = (prop: any) => Form.createFormField({
+            value: prop
+        });
+        return {
+            tagName: createFormField(tagName),
+            tagDescript: createFormField(tagDescript)
+        };
+    }
+})((props: TagModalProps) => {
+    const { modalVisible, title, form, handleModalVisible, handleOkClick } = props;
     const handleOk = () => {
-        form.validateFields((err, value: NewTag) => {
+        form.validateFields((err, value: TagFields) => {
             if (err) { return; }
             form.resetFields();
-            handleAddTag(value);
+            handleOkClick(value);
         });
     };
     return (
         <Modal
             destroyOnClose
-            title="新建标签"
+            title={title}
             visible={modalVisible}
             onCancel={handleModalVisible}
             onOk={handleOk}
@@ -57,6 +51,33 @@ const CreateTagForm = Form.create<NewTagModalProps>()((props: NewTagModalProps) 
     );
 });
 
+const TagConfigModal = ({ modalType, handleOk, ...props }: TagModalWrapperProps & {
+    modalType: ModalTypes
+}) => {
+    let newProps = props;
+    if (modalType === ModalTypes.ADD) {
+        newProps = {
+            ...newProps,
+            title: '新建标签',
+            initialValue: {}
+        };
+    } else if (modalType === ModalTypes.UPDATE) {
+        newProps = {
+            ...newProps,
+            title: '更新标签'
+        };
+    }
+    const handleSave = (value: TagFields) => {
+        handleOk(modalType, value);
+    };
+    return (
+        <CreateTagForm
+            {...newProps}
+            handleOkClick={handleSave}
+        />
+    );
+};
+
 @(connect((state: AppState) => {
     return {
         tagsList: state.tags.tagsList,
@@ -68,7 +89,8 @@ const CreateTagForm = Form.create<NewTagModalProps>()((props: NewTagModalProps) 
 export default class Tags extends BaseComponent<Props, State> {
     state = {
         inited: false,
-        modalVisible: false
+        modalVisible: false,
+        modalType: ModalTypes.ADD
     }
 
     async componentWillMount() {
@@ -76,11 +98,23 @@ export default class Tags extends BaseComponent<Props, State> {
         this.setState({ inited: true });
     }
 
+    handleAddTagClick = () => {
+        this.setState({
+            modalType: ModalTypes.ADD,
+            modalVisible: true
+        });
+    }
+
     handleModalVisible = () => {
         this.setState({ modalVisible: false });
     }
 
+    handleTagSave = (type: ModalTypes, value: TagFields) => {
+        console.log(type, value);
+    }
+
     render() {
+        const { modalVisible, modalType } = this.state;
         const { isLoadingTagData, tagsList } = this.props;
         return this.state.inited ? (
             <div className="page c-page-tags">
@@ -103,14 +137,20 @@ export default class Tags extends BaseComponent<Props, State> {
                                 </List.Item>
                             ) : (
                                 <List.Item>
-                                    <Button type="dashed" className="new-tag-btn">
-                                        <Icon type="plus" /> 新建产品
+                                    <Button type="dashed" className="new-tag-btn" onClick={this.handleAddTagClick}>
+                                        <Icon type="plus" /> 新建标签
                                     </Button>
                                 </List.Item>
                             )
                         )}
                     />
                 </div>
+                <TagConfigModal
+                    modalVisible={modalVisible}
+                    modalType={modalType}
+                    handleModalVisible={this.handleModalVisible}
+                    handleOk={this.handleTagSave}
+                />
             </div>
         ) : <PageLoading />;
     }

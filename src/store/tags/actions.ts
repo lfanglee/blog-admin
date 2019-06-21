@@ -70,11 +70,11 @@ export function deleteTag(): DeleteTagActionTypes {
     };
 }
 
-export function deleteTagSuccess(tag: Tag): DeleteTagActionTypes {
+export function deleteTagSuccess(id: string): DeleteTagActionTypes {
     return {
         type: actionTypes.DELETE_TAG_SUCCESS,
         payload: {
-            tag
+            id
         }
     };
 }
