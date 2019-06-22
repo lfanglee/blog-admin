@@ -1,5 +1,4 @@
-import { GetTagsParams } from '@/services/tag';
-import { NewTagModalProps } from '@/pages/Articles/ArticleRelease/interface';
+import { GetTagsParams, PostTagParams, DeleteTagParams, PatchTagParams } from '@/services/tag';
 import { FormComponentProps } from 'antd/lib/form';
 
 export interface Props {
@@ -11,17 +10,22 @@ export interface Props {
         list: Tag[];
         pagination: Pagination;
     }>>;
+    addTag(params: PostTagParams): Promise<Ajax.AjaxResponse<Tag>>;
+    updateTag(params: PatchTagParams): Promise<Ajax.AjaxResponse<Tag>>;
+    deleteTag(params: DeleteTagParams): Promise<Ajax.AjaxResponse<null>>;
 }
 
 export interface State {
     inited: boolean;
-    modalVisible: boolean;
     modalType: ModalTypes;
+    modalLoading: boolean;
+    modalInitialValue: Partial<Tag>;
 }
 
 export enum ModalTypes {
     ADD,
-    UPDATE
+    UPDATE,
+    NONE
 }
 
 export interface TagFields {
@@ -30,13 +34,14 @@ export interface TagFields {
 }
 
 export interface TagModalWrapperProps {
-    modalVisible: boolean;
     title?: string;
-    initialValue?: TagFields;
+    initialValue?: Partial<Tag>;
+    loading?: boolean;
     handleModalVisible(): void;
     handleOk?(type: ModalTypes, tag: TagFields): void;
 }
 
 export type TagModalProps = TagModalWrapperProps & FormComponentProps & {
+    modalVisible: boolean;
     handleOkClick(tag: TagFields): void;
 };

@@ -1,27 +1,27 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { PageHeader, List, Button, Icon, Card, Form, Modal, Input } from 'antd';
+import { PageHeader, List, Button, Icon, Card, Form, Modal, Input, message, Spin } from 'antd';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
 import { AppState } from '@/store';
-import { getTags } from '@/store/tags/thunks';
+import { getTags, addTag, updateTag, deleteTag } from '@/store/tags/thunks';
 import { Props, State, ModalTypes, TagFields, TagModalWrapperProps, TagModalProps } from './interface';
 import './index.scss';
 
 const CreateTagForm = Form.create<TagModalProps>({
     mapPropsToFields(props: TagModalProps) {
-        const { tagName, tagDescript } = props.initialValue;
+        const { name, descript } = props.initialValue;
         const createFormField = (prop: any) => Form.createFormField({
             value: prop
         });
         return {
-            tagName: createFormField(tagName),
-            tagDescript: createFormField(tagDescript)
+            tagName: createFormField(name),
+            tagDescript: createFormField(descript)
         };
     }
 })((props: TagModalProps) => {
-    const { modalVisible, title, form, handleModalVisible, handleOkClick } = props;
+    const { modalVisible, title, form, handleModalVisible, handleOkClick, loading } = props;
     const handleOk = () => {
         form.validateFields((err, value: TagFields) => {
             if (err) { return; }
@@ -37,34 +37,46 @@ const CreateTagForm = Form.create<TagModalProps>({
             onCancel={handleModalVisible}
             onOk={handleOk}
         >
-            <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标签名">
-                {form.getFieldDecorator('tagName', {
-                    rules: [{ required: true, message: '请输入标签名' }]
-                })(<Input placeholder="请输入标签名" />)}
-            </Form.Item>
-            <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标签描述">
-                {form.getFieldDecorator('tagDescript', {
-                    rules: [{ required: true, message: '请输入标签描述' }]
-                })(<Input placeholder="请输入标签描述" />)}
-            </Form.Item>
+            <Spin spinning={loading}>
+                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标签名">
+                    {form.getFieldDecorator('tagName', {
+                        rules: [{ required: true, message: '请输入标签名' }]
+                    })(<Input placeholder="请输入标签名" />)}
+                </Form.Item>
+                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标签描述">
+                    {form.getFieldDecorator('tagDescript', {
+                        rules: [{ required: true, message: '请输入标签描述' }]
+                    })(<Input placeholder="请输入标签描述" />)}
+                </Form.Item>
+            </Spin>
         </Modal>
     );
 });
 
 const TagConfigModal = ({ modalType, handleOk, ...props }: TagModalWrapperProps & {
-    modalType: ModalTypes
+    modalType: ModalTypes;
 }) => {
-    let newProps = props;
+    const { initialValue = {} } = props;
+    let newProps = {
+        title: '新建标签',
+        initialValue: {},
+        modalVisible: true
+    };
     if (modalType === ModalTypes.ADD) {
         newProps = {
-            ...newProps,
-            title: '新建标签',
-            initialValue: {}
+            ...newProps
         };
     } else if (modalType === ModalTypes.UPDATE) {
         newProps = {
             ...newProps,
+            initialValue,
             title: '更新标签'
+        };
+    } else if (modalType === ModalTypes.NONE) {
+        newProps = {
+            ...newProps,
+            modalVisible: false,
+            initialValue: {}
         };
     }
     const handleSave = (value: TagFields) => {
@@ -72,6 +84,7 @@ const TagConfigModal = ({ modalType, handleOk, ...props }: TagModalWrapperProps 
     };
     return (
         <CreateTagForm
+            {...props}
             {...newProps}
             handleOkClick={handleSave}
         />
@@ -84,13 +97,17 @@ const TagConfigModal = ({ modalType, handleOk, ...props }: TagModalWrapperProps 
         isLoadingTagData: state.tags.isLoadingTagData
     };
 }, {
-    getTags
+    getTags,
+    addTag,
+    updateTag,
+    deleteTag
 }) as any)
 export default class Tags extends BaseComponent<Props, State> {
-    state = {
+    state: State = {
         inited: false,
-        modalVisible: false,
-        modalType: ModalTypes.ADD
+        modalType: ModalTypes.NONE,
+        modalLoading: false,
+        modalInitialValue: {}
     }
 
     async componentWillMount() {
@@ -100,21 +117,52 @@ export default class Tags extends BaseComponent<Props, State> {
 
     handleAddTagClick = () => {
         this.setState({
-            modalType: ModalTypes.ADD,
-            modalVisible: true
+            modalType: ModalTypes.ADD
         });
     }
 
     handleModalVisible = () => {
-        this.setState({ modalVisible: false });
+        this.setState({ modalType: ModalTypes.NONE });
     }
 
-    handleTagSave = (type: ModalTypes, value: TagFields) => {
-        console.log(type, value);
+    handleTagSave = async (type: ModalTypes, value: TagFields) => {
+        const { id } = this.state.modalInitialValue;
+        const { tagName: name, tagDescript: descript } = value;
+        this.setState({ modalLoading: true });
+        if (type === ModalTypes.ADD) {
+            const res = await this.props.addTag({
+                name,
+                descript
+            });
+            if (res.code === 0) {
+                message.success('新增标签成功');
+            }
+        } else if (type === ModalTypes.UPDATE) {
+            const res = await this.props.updateTag({
+                id,
+                name,
+                descript
+            });
+            if (res.code === 0) {
+                message.success('更新标签成功');
+            }
+        }
+        this.setState({
+            modalLoading: false,
+            modalType: ModalTypes.NONE
+        });
+    }
+
+    handleTagEditClick = (value: Tag) => {
+        this.setState({
+            modalType: ModalTypes.UPDATE,
+            modalInitialValue: value
+        });
+        console.log(value);
     }
 
     render() {
-        const { modalVisible, modalType } = this.state;
+        const { modalType, modalInitialValue, modalLoading } = this.state;
         const { isLoadingTagData, tagsList } = this.props;
         return this.state.inited ? (
             <div className="page c-page-tags">
@@ -128,7 +176,14 @@ export default class Tags extends BaseComponent<Props, State> {
                         renderItem={(item: Tag) => (
                             item ? (
                                 <List.Item key={item.id}>
-                                    <Card hoverable className="tag-card" actions={[<a key="edit">编辑</a>, <a key="delete">删除</a>]}>
+                                    <Card
+                                        hoverable
+                                        className="tag-card"
+                                        actions={[
+                                            <a key="edit" onClick={() => this.handleTagEditClick(item)}>编辑</a>,
+                                            <a key="delete">删除</a>
+                                        ]}
+                                    >
                                         <Card.Meta
                                             title={<a>{item.name}</a>}
                                             description={<p className="ellipsis">{item.descript}</p>}
@@ -146,8 +201,9 @@ export default class Tags extends BaseComponent<Props, State> {
                     />
                 </div>
                 <TagConfigModal
-                    modalVisible={modalVisible}
                     modalType={modalType}
+                    loading={modalLoading}
+                    initialValue={modalInitialValue}
                     handleModalVisible={this.handleModalVisible}
                     handleOk={this.handleTagSave}
                 />
