@@ -161,6 +161,26 @@ export default class Tags extends BaseComponent<Props, State> {
         console.log(value);
     }
 
+    handleTagDelClick = (value: Tag) => {
+        const { id } = value;
+
+        Modal.confirm({
+            title: '确定删除标签吗？',
+            content: '标签删除后不可恢复',
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk: async () => {
+                const res = await this.props.deleteTag({ id });
+                if (res.code === 0) {
+                    message.success('删除标签成功');
+                }
+                return res;
+            },
+            onCancel() {}
+        });
+    }
+
     render() {
         const { modalType, modalInitialValue, modalLoading } = this.state;
         const { isLoadingTagData, tagsList } = this.props;
@@ -181,7 +201,7 @@ export default class Tags extends BaseComponent<Props, State> {
                                         className="tag-card"
                                         actions={[
                                             <a key="edit" onClick={() => this.handleTagEditClick(item)}>编辑</a>,
-                                            <a key="delete">删除</a>
+                                            <a key="delete" onClick={() => this.handleTagDelClick(item)}>删除</a>
                                         ]}
                                     >
                                         <Card.Meta
