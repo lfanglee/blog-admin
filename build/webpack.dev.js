@@ -19,7 +19,7 @@ module.exports = merge(baseConfig, {
         disableHostCheck: true, //  新增该配置项
         proxy: {
             '/api': {
-                target: `${config.dev.host}:${config.dev.port}/mock`,
+                target: `http://${config.dev.host}:${config.dev.port}/mock`,
                 pathRewrite: (_path, req) => {
                     const realUrl = req.url.split('?')[0];
                     const reqMethod = req.method;
