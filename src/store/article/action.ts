@@ -1,4 +1,4 @@
-import { GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes } from './types';
+import { GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes, DeleteArticleActionTypes } from './types';
 import * as actionTypes from '@/constants';
 
 export function getArticleDetail(): GetArticleActionTypes {
@@ -70,5 +70,23 @@ export function updateArticleSuccess(detail: Article): UpdateArticleActionTypes 
 export function updateArticleFail(): UpdateArticleActionTypes {
     return {
         type: actionTypes.UPDATE_ARTICLE_FAIL
+    };
+}
+
+export function deleteArticle(): DeleteArticleActionTypes {
+    return {
+        type: actionTypes.DELETE_ARTICLE_REQUEST
+    };
+}
+
+export function deleteArticleSuccess(): DeleteArticleActionTypes {
+    return {
+        type: actionTypes.DELETE_ARTICLE_SUCCESS
+    };
+}
+
+export function deleteArticleFail(): DeleteArticleActionTypes {
+    return {
+        type: actionTypes.DELETE_ARTICLE_FAIL
     };
 }

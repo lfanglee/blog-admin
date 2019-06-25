@@ -3,14 +3,14 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import {
     getArticleDetail as getArticleDetailService, GetArticleDetailParams,
     uploadArticle, PostArticleParams,
-    updateArticle as updateArticleService, PatchArticleParams
+    updateArticle as updateArticleService, PatchArticleParams, DeleteArticleParams,
+    deleteArticle as deleteArticleService
 } from '@/services/article';
 import {
     getArticleDetail as getArticleDetailRequest, getArticleDetailSuccess, getArticleDetailFail,
     addArticle as addArticleRequest, addArticleSuccess, addArticleFail,
-    updateArticle as updateArticleRequest,
-    updateArticleSuccess,
-    updateArticleFail
+    updateArticle as updateArticleRequest, updateArticleSuccess, updateArticleFail,
+    deleteArticle as deleteArticleRequest, deleteArticleSuccess, deleteArticleFail
 } from './action';
 import { ArticleStore } from './types';
 
@@ -58,6 +58,22 @@ export const updateArticle = (
         dispatch(updateArticleSuccess(res.data));
     } else {
         dispatch(updateArticleFail());
+    }
+    return res;
+};
+
+export const deleteArticle = (
+    params: DeleteArticleParams
+): ThunkAction<void, ArticleStore, null, Action<string>> => async (
+    dispatch: ThunkDispatch<ArticleStore, null, Action<string>>
+) => {
+    dispatch(deleteArticleRequest());
+    const res: Ajax.AjaxResponse<null> = await deleteArticleService(params);
+
+    if (res.code === 0) {
+        dispatch(deleteArticleSuccess());
+    } else {
+        dispatch(deleteArticleFail());
     }
     return res;
 };

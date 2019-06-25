@@ -3,6 +3,6 @@
     "message": "ok",
     "data": {
         "token": "aaa",
-        "lifeTime": 2559059200000
+        "activeTime": 2559059200000
     }
 }

@@ -62,3 +62,17 @@ export interface UpdateArticleFailAction {
 }
 
 export type UpdateArticleActionTypes = UpdateArticleAction | UpdateArticleSuccessAction | UpdateArticleFailAction;
+
+export interface DeleteArticleAction {
+    type: actionTypes.DELETE_ARTICLE_REQUEST;
+}
+
+export interface DeleteArticleSuccessAction {
+    type: actionTypes.DELETE_ARTICLE_SUCCESS;
+}
+
+export interface DeleteArticleFailAction {
+    type: actionTypes.DELETE_ARTICLE_FAIL;
+}
+
+export type DeleteArticleActionTypes = DeleteArticleAction | DeleteArticleSuccessAction | DeleteArticleFailAction;

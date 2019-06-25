@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { Button, Badge, Card, Dropdown, Divider, Icon, Menu, PageHeader, Table } from 'antd';
+import { Button, Badge, Card, Dropdown, Divider, Icon, Menu, PageHeader, Table, message } from 'antd';
 import { ColumnProps, PaginationConfig } from 'antd/lib/table';
 import * as moment from 'moment';
 import qs from 'query-string';
@@ -9,7 +9,8 @@ import qs from 'query-string';
 import BaseComponent from '@/pages/components/BaseComponent';
 import { AppState } from '@/store';
 import { getArticleList } from '@/store/articles/thunks';
-import { GetArticleListParams } from '@/services/article';
+import { deleteArticle } from '@/store/article/thunks';
+import { GetArticleListParams, DeleteArticleParams } from '@/services/article';
 import './index.scss';
 
 interface Props {
@@ -18,10 +19,11 @@ interface Props {
     pagination: Pagination;
     isLoadingListData: boolean;
     // props from redux dispatch
-    getArticleList: (params: GetArticleListParams) => Promise<Ajax.AjaxResponse<{
+    getArticleList(params: GetArticleListParams): Promise<Ajax.AjaxResponse<{
         list: Article[],
         pagination: Pagination
     }>>
+    deleteArticle(params: DeleteArticleParams): Promise<Ajax.AjaxResponse<null>>
 }
 
 interface ColumnRecord {
@@ -31,6 +33,11 @@ interface ColumnRecord {
     views: number;
     type: number;
     state: 1 | 2;
+}
+
+enum ItemMoreActions {
+    PREVIEW = 'PREVIEW',
+    DELETE = 'DELETE'
 }
 
 const stateMap = ['', '已发布', '草稿'];
@@ -46,7 +53,8 @@ const statusMap = ['default', 'success', 'processing'];
         isLoadingListData: state.articles.isLoadingArticleListData
     };
 }, {
-    getArticleList
+    getArticleList,
+    deleteArticle
 }) as any)
 export default class ArticleList extends BaseComponent<Props & RouteComponentProps> {
     private columns: ColumnProps<ColumnRecord>[] = [{
@@ -90,8 +98,8 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
             <Dropdown
                 overlay={
                     <Menu onClick={({ key }) => this.handleListItemMoreAction(key, record.key)}>
-                        <Menu.Item key="preview">预览</Menu.Item>
-                        <Menu.Item key="delete">删除</Menu.Item>
+                        <Menu.Item key={ItemMoreActions.PREVIEW}>预览</Menu.Item>
+                        <Menu.Item key={ItemMoreActions.DELETE}>删除</Menu.Item>
                     </Menu>
                 }
             >
@@ -121,8 +129,18 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         });
     }
 
-    handleListItemMoreAction = (key: string, recordId: string) => {
-        console.log(key, recordId);
+    handleListItemMoreAction = async (key: string, recordId: string) => {
+        if (key === ItemMoreActions.PREVIEW) {
+            // TODO
+        } else if (key === ItemMoreActions.DELETE) {
+            const res = await this.props.deleteArticle({ id: recordId });
+            if (res.code === 0) {
+                message.success('删除文章成功');
+                await this.props.getArticleList({
+                    pageNo: this.props.pagination.pageNo
+                });
+            }
+        }
     }
 
     handleTableChange = async (pagination: PaginationConfig) => {
