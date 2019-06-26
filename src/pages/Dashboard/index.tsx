@@ -8,13 +8,9 @@ import PageLoading from '@/components/PageLoading';
 @(connect(state => {
     return {};
 }, {}) as any)
-export default class Home extends BaseComponent {
-    state = {
-        inited: false
-    }
-
+export default class Dashboard extends BaseComponent {
     render() {
-        return this.state.inited ? (
+        return true ? (
             <div className="page c-page-hom">
                 <PageHeader title="管理中心" />
                 <div className="page-content">
