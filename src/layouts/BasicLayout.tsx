@@ -105,7 +105,7 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps & Ro
                                     const route = ({ component: Component, path, title }: typeof menu) => (
                                         <Route key={title} path={path} component={Component} />
                                     );
-                                    return menu.component ? route(menu) : menu.subMenu.map(item => route(item));
+                                    return menu.component ? route(menu) : menu.subMenu.map(item => route(item as any));
                                 })}
                                 <Route component={Page404} />
                             </Switch>

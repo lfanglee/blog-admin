@@ -42,12 +42,6 @@ export const menus = [
         title: '分类/标签',
         icon: 'tags',
         component: React.lazy(() => import('@/pages/Tags'))
-    },
-    {
-        path: '/dashboard1',
-        title: '管理中心',
-        icon: 'dashboard',
-        component: React.lazy(() => import('@/pages/Dashboard'))
     }
 ];
 
