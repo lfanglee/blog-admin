@@ -7,11 +7,12 @@ interface MenuItem {
     path: string;
     title: string;
     icon: string;
+    component?: React.LazyExoticComponent<any>;
     redirect?: string;
     subMenu?: MenuItem[];
 }
 
-export const menus = [
+export const menus: MenuItem[] = [
     {
         path: '/dashboard',
         title: '管理中心',
