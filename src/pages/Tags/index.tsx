@@ -158,7 +158,6 @@ export default class Tags extends BaseComponent<Props, State> {
             modalType: ModalTypes.UPDATE,
             modalInitialValue: value
         });
-        console.log(value);
     }
 
     handleTagDelClick = (value: Tag) => {
