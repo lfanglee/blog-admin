@@ -13,6 +13,7 @@ const config = require('./config');
 module.exports = merge(baseConfig, {
     mode: 'production',
     output: {
+        filename: 'js/[name].[chunkhash].js',
         path: config.pro.outputPath,
         publicPath: config.pro.outputPublicPath
     },

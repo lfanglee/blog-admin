@@ -4,6 +4,7 @@ const path = require('path');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const baseConfig = require('./webpack.base');
 const config = require('./config');
 
@@ -50,6 +51,9 @@ module.exports = merge(baseConfig, {
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].[hash:7].css'
+        }),
+        new FilterWarningsPlugin({
+            exclude: /mini-css-extract-plugin[^]*Conflicting order between:/,
         })
     ]
 });

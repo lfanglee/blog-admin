@@ -12,7 +12,7 @@ module.exports = {
     },
     output: {
         path: resolve('dist'),
-        filename: 'js/[name].[chunkhash].js'
+        filename: 'js/[name].[hash].js'
     },
     module: {
         rules: [
@@ -33,6 +33,6 @@ module.exports = {
     },
     stats: {
         // warn => /Conflicting order between:/gm.test(warn)
-        warningsFilter: warn => !~warn.indexOf('Conflicting order between') // if true will ignore
+        warningsFilter: warn => warn.indexOf('Conflicting order between:') > -1 // if true will ignore
     }
 };
