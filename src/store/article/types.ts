@@ -29,6 +29,10 @@ export interface SetArticleDetail {
     };
 }
 
+export interface ResetArticleDetail {
+    type: actionTypes.RESET_ARTICLE_DETAIL;
+}
+
 export interface AddArticleAction {
     type: actionTypes.ADD_ARTICLE_REQUEST;
 }

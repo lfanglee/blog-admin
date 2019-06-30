@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { Button, Badge, Card, Dropdown, Divider, Icon, Menu, PageHeader, Table, message } from 'antd';
+import { Button, Badge, Card, Dropdown, Divider, Icon, Menu, PageHeader, Table, message, Modal } from 'antd';
 import { ColumnProps, PaginationConfig } from 'antd/lib/table';
 import * as moment from 'moment';
 import qs from 'query-string';
@@ -133,13 +133,22 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         if (key === ItemMoreActions.PREVIEW) {
             // TODO
         } else if (key === ItemMoreActions.DELETE) {
-            const res = await this.props.deleteArticle({ id: recordId });
-            if (res.code === 0) {
-                message.success('删除文章成功');
-                await this.props.getArticleList({
-                    pageNo: this.props.pagination.pageNo
-                });
-            }
+            Modal.confirm({
+                title: '确认删除文章吗？',
+                content: '删除文章后不可恢复，请谨慎操作',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: async () => {
+                    const res = await this.props.deleteArticle({ id: recordId });
+                    if (res.code === 0) {
+                        message.success('删除文章成功');
+                        await this.props.getArticleList({
+                            pageNo: this.props.pagination.pageNo
+                        });
+                    }
+                    return res;
+                }
+            });
         }
     }
 

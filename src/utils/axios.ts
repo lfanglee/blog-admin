@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import * as queryString from 'query-string';
 import { notification } from 'antd';
+import history from '@/utils/history';
 
 const instance = axios.create({
     baseURL: '/api',
@@ -44,11 +45,26 @@ instance.interceptors.response.use((res: AxiosResponse) => {
                 duration: 5
             });
         }
+    } else if (error.response && error.response.data) {
+        notification.error({
+            message: error.response.data,
+            duration: 5
+        });
+        if (error.response.status === 401) {
+            history.push({
+                pathname: '/login',
+                state: { from: history.location }
+            });
+        }
+        return {
+            data: error.response
+        };
+    } else {
+        notification.error({
+            message: error.message,
+            duration: 5
+        });
     }
-    notification.error({
-        message: error.message,
-        duration: 5
-    });
     return {
         data: {
             code: 400,
