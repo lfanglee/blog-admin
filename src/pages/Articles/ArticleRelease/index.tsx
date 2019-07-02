@@ -7,10 +7,10 @@ import qs from 'query-string';
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
 import { AppState } from '@/store';
-import { setArticleDetail } from '@/store/article/action';
+import { setArticleDetail, resetArticleDetail } from '@/store/article/action';
 import { getArticleDetail, addArticle, updateArticle } from '@/store/article/thunks';
 import { getTags, addTag } from '@/store/tags/thunks';
-import { State, ArticleReleaseComProps, NewTag, NewTagModalProps } from './interface';
+import { State, Props, NewTag, NewTagModalProps } from './interface';
 import './index.scss';
 
 const { Option } = Select;
@@ -66,14 +66,15 @@ const windowUnloadListener = (e: Event) => {
     addArticle,
     updateArticle,
     setArticleDetail,
+    resetArticleDetail,
     getTags,
     addTag
 }) as any)
-@(Form.create<ArticleReleaseComProps>({
-    onFieldsChange(props: ArticleReleaseComProps, changedFields, allFileds) {
+@(Form.create<Props>({
+    onFieldsChange(props: Props, changedFields, allFileds) {
         // console.log(props, changedFields, allFileds);
     },
-    mapPropsToFields(props: ArticleReleaseComProps) {
+    mapPropsToFields(props: Props) {
         const { title, keyword, type, tags = [], content, publish = 0 } = props.articleDetail;
         const createFormField = (prop: any) => Form.createFormField({
             value: prop
@@ -87,17 +88,17 @@ const windowUnloadListener = (e: Event) => {
             publish: createFormField([0, 1].includes(+publish))
         };
     },
-    onValuesChange(props: ArticleReleaseComProps, _values, allValues) {
+    onValuesChange(props: Props, _values, allValues) {
         props.setArticleDetail(Object.assign({}, allValues, {
             publish: allValues.publish ? 1 : 2,
             tags: allValues.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])
         }));
     }
 }) as any)
-export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps, State> {
+export default class ArticleRelease extends BaseComponent<Props, State> {
     private query = qs.parse(this.props.location.search);
 
-    state = {
+    state: State = {
         inited: false,
         articleId: this.query.id,
         createTagModalVisible: false,
@@ -118,6 +119,7 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
     }
 
     componentWillUnmount() {
+        this.props.resetArticleDetail();
         window.removeEventListener('beforeunload', windowUnloadListener);
     }
 
@@ -164,12 +166,13 @@ export default class ArticleRelease extends BaseComponent<ArticleReleaseComProps
                 });
                 if (res.code === 0) {
                     message.success(`文章${this.props.articleDetail.id ? '更新' : '发布'}成功`);
-                    this.props.history.replace({
-                        search: `?${qs.stringify({
-                            id: res.data.id
-                        })}`
+                    this.setState({ isArticleSubmited: true }, () => {
+                        this.props.history.replace({
+                            search: `?${qs.stringify({
+                                id: res.data.id
+                            })}`
+                        });
                     });
-                    this.setState({ isArticleSubmited: true });
                 }
             }
         });

@@ -1,4 +1,4 @@
-import { GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes, DeleteArticleActionTypes } from './types';
+import { GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes, DeleteArticleActionTypes, ResetArticleDetail } from './types';
 import * as actionTypes from '@/constants';
 
 export function getArticleDetail(): GetArticleActionTypes {
@@ -28,6 +28,12 @@ export function setArticleDetail(detail: Article): SetArticleDetail {
         payload: {
             detail
         }
+    };
+}
+
+export function resetArticleDetail(): ResetArticleDetail {
+    return {
+        type: actionTypes.RESET_ARTICLE_DETAIL
     };
 }
 

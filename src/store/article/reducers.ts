@@ -1,4 +1,4 @@
-import { ArticleStore, GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes, DeleteArticleActionTypes } from './types';
+import { ArticleStore, GetArticleActionTypes, SetArticleDetail, AddArticleActionTypes, UpdateArticleActionTypes, DeleteArticleActionTypes, ResetArticleDetail } from './types';
 import * as actionTypes from '@/constants';
 
 const initialState: ArticleStore = {
@@ -8,7 +8,7 @@ const initialState: ArticleStore = {
 
 export default function articleReducer(
     state: ArticleStore = initialState,
-    action: GetArticleActionTypes | SetArticleDetail
+    action: GetArticleActionTypes | SetArticleDetail | ResetArticleDetail
         | AddArticleActionTypes | UpdateArticleActionTypes | DeleteArticleActionTypes
 ): ArticleStore {
     switch (action.type) {
@@ -30,6 +30,7 @@ export default function articleReducer(
             };
         case actionTypes.GET_ARTICLE_DETAIL_FAIL:
         case actionTypes.DELETE_ARTICLE_SUCCESS:
+        case actionTypes.RESET_ARTICLE_DETAIL:
             return {
                 ...state,
                 isLoadingArticleData: false,
