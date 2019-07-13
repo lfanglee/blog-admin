@@ -8,17 +8,17 @@ import PageLoading from '@/components/PageLoading';
 @(connect(state => {
     return {};
 }, {}) as any)
-export default class Home extends BaseComponent {
+export default class Files extends BaseComponent {
     state = {
         inited: false
     }
 
     render() {
         return this.state.inited ? (
-            <div className="page c-page-home">
-                <PageHeader title="管理中心" />
+            <div className="page c-page-files">
+                <PageHeader title="文件管理" />
                 <div className="page-content">
-                    Home
+                    files
                 </div>
             </div>
         ) : <PageLoading />;
