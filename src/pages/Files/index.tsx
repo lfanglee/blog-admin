@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { PageHeader, Upload, message } from 'antd';
-import { UploadChangeParam } from 'antd/lib/upload';
+import { PageHeader, Upload, Icon, message } from 'antd';
+import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
@@ -26,24 +26,32 @@ export default class Files extends BaseComponent {
                 <PageHeader title="文件管理" />
                 <div className="page-content">
                     <Dragger
-                        name="file"
                         multiple
+                        name="file"
                         action="/api/upload"
                         headers={{
                             Authorization: `TOKEN ${JSON.parse(localStorage.getItem('TOKEN')).token}`
                         }}
+                        listType="picture-card"
                         onChange={(info: UploadChangeParam) => {
                             const { status } = info.file;
                             if (status !== 'uploading') {
                                 console.log(info.file, info.fileList);
                             }
                             if (status === 'done') {
-                                message.success(`${info.file.name} file uploaded successfully.`);
+                                if (info.file.response.code === 0) {
+                                    message.success(`${info.file.name} file uploaded successfully.`);
+                                } else {
+                                    message.error(`${info.file.name} file upload failed.`);
+                                }
                             } else if (status === 'error') {
                                 message.error(`${info.file.name} file upload failed.`);
                             }
                         }}
                     >
+                        <p className="ant-upload-drag-icon">
+                            <Icon type="inbox" />
+                        </p>
                         点击或者拖动文件至此上传
                     </Dragger>
                 </div>
