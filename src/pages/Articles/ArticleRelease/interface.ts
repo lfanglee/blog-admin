@@ -2,7 +2,6 @@ import { RouteComponentProps } from 'react-router';
 import { FormComponentProps } from 'antd/lib/form';
 import { GetArticleDetailParams, PostArticleParams, PatchArticleParams } from '@/services/article';
 import { GetTagsParams, PostTagParams } from '@/services/tag';
-import { ModalTypes } from '@/pages/Tags/interface';
 
 interface StateProps {
     articleDetail: Article;

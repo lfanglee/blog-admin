@@ -38,6 +38,15 @@ declare interface Article {
     }
 }
 
+declare interface MFile {
+    id: string;
+    originName: string;
+    savedName: string;
+    path: string;
+    size: number;
+    create_at: string;
+}
+
 declare interface Pagination {
     total: number;
     totalPage: number;

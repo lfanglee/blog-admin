@@ -6,12 +6,14 @@ import loginReducer from './login/reducers';
 import articlesReducer from './articles/reducers';
 import articleReducer from './article/reducers';
 import tagsReducer from './tags/reducers';
+import filesReducer from './files/reducers';
 
 const rootReducer = combineReducers({
     login: loginReducer,
     articles: articlesReducer,
     article: articleReducer,
-    tags: tagsReducer
+    tags: tagsReducer,
+    files: filesReducer
     // more reducers
 });
 
