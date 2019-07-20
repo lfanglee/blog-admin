@@ -7,6 +7,7 @@ import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
 import { AppState } from '@/store';
 import { getFileList } from '@/store/files/thunks';
+import { deleteFile, DeleteFileParams } from '@/services/file';
 import { Props, State } from './interface';
 import './index.scss';
 
@@ -64,15 +65,14 @@ class Files extends BaseComponent<Props, State> {
         }
     }
 
-    handleRemove = (file: UploadFile) => {
-        console.log(file);
+    handleRemove = async (file: UploadFile) => {
+        const res = await deleteFile({
+            id: file.uid
+        });
+        return res.code === 0;
     }
 
     handlePaginationChange = (page: number, pageSize: number) => {
-        this.getFileListData(page, pageSize);
-    }
-
-    handlePaginationSizeChange = (page: number, pageSize: number) => {
         this.getFileListData(page, pageSize);
     }
 
@@ -108,7 +108,7 @@ class Files extends BaseComponent<Props, State> {
                         defaultPageSize={pageSize}
                         total={total}
                         onChange={this.handlePaginationChange}
-                        onShowSizeChange={this.handlePaginationSizeChange}
+                        onShowSizeChange={this.handlePaginationChange}
                     />
                 </div>
             </div>
