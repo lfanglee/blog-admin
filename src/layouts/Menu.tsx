@@ -49,6 +49,12 @@ export const menus: MenuItem[] = [
         title: '文件管理',
         icon: 'file',
         component: React.lazy(() => import('@/pages/Files'))
+    },
+    {
+        path: '/setting',
+        title: '全局管理',
+        icon: 'file',
+        component: React.lazy(() => import('@/pages/Setting'))
     }
 ];
 
