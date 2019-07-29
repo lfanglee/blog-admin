@@ -61,7 +61,7 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         title: '文章标题',
         dataIndex: 'title',
         width: 240,
-        render: (text: string) => <a href="/" target="_blank">{text}</a>
+        render: (text: string, record: ColumnRecord) => <a href={`https://blog.lfanglee.cn/article/${record.key}`} target="_blank" rel="noopener noreferrer">{text}</a>
     }, {
         title: '发布时间',
         dataIndex: 'create_at',
@@ -131,7 +131,7 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
 
     handleListItemMoreAction = async (key: string, recordId: string) => {
         if (key === ItemMoreActions.PREVIEW) {
-            // TODO
+            location.href = `https://blog.lfanglee.cn/article/${recordId}`;
         } else if (key === ItemMoreActions.DELETE) {
             Modal.confirm({
                 title: '确认删除文章吗？',
