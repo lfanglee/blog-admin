@@ -1,0 +1,23 @@
+.c-page-setting {
+    height: calc(100% - 52px);
+    .page-content {
+        display: flex;
+        height: 100%;
+        background: #FFF;
+        .menu-content {
+            width: 224px;
+            border-right: 1px solid #e8e8e8;
+        }
+        .main-content {
+            flex: 1;
+            padding: 8px 40px;
+            .title {
+              font-size: 20px;
+              color: rgba(0, 0, 0, 0.85);
+              line-height: 28px;
+              font-weight: 500;
+              margin-bottom: 12px;
+            }
+          }
+    }
+}

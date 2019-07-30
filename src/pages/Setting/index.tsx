@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { PageHeader, Tabs } from 'antd';
+import { PageHeader, Menu } from 'antd';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
-
-const { TabPane } = Tabs;
+import './index.scss';
 
 class Setting extends BaseComponent {
     state = {
@@ -18,20 +17,20 @@ class Setting extends BaseComponent {
 
     render() {
         return this.state.inited ? (
-            <div className="page c-page-home">
+            <div className="page c-page-setting">
                 <PageHeader title="全局管理" />
                 <div className="page-content">
-                    <Tabs tabPosition="left">
-                        <TabPane tab="Tab 1" key="1">
-                            Content of Tab 1
-                        </TabPane>
-                        <TabPane tab="Tab 2" key="2">
-                            Content of Tab 2
-                        </TabPane>
-                        <TabPane tab="Tab 3" key="3">
-                            Content of Tab 3
-                        </TabPane>
-                    </Tabs>
+                    <div className="menu-content">
+                        <Menu
+                            mode="inline"
+                        >
+                            <Menu.Item>基本信息</Menu.Item>
+                            <Menu.Item>账户设置</Menu.Item>
+                        </Menu>
+                    </div>
+                    <div className="main-content">
+                        <div className="title">基本信息</div>
+                    </div>
                 </div>
             </div>
         ) : <PageLoading />;
