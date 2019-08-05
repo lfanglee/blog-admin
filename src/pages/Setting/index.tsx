@@ -1,35 +1,61 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { PageHeader, Menu } from 'antd';
+import { withRouter, Route } from 'react-router';
+import { PageHeader, Menu, Divider } from 'antd';
+import { ClickParam } from 'antd/lib/menu';
 
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
+import Account from './Account';
+import Options from './Options';
+import { AppState } from '@/store';
+import { State, Props } from './interface';
 import './index.scss';
 
-class Setting extends BaseComponent {
-    state = {
-        inited: false
+const menu = {
+    options: 'Options Setting',
+    account: 'Account Setting'
+};
+
+class Setting extends BaseComponent<Props, State> {
+    state: State = {
+        inited: false,
+        selectedKey: this.props.location.pathname.replace(`${this.props.match.path}/`, '') || 'options'
     }
 
     componentDidMount() {
         this.setState({ inited: true });
     }
 
+    selectKey = ({ key }: ClickParam) => {
+        const { history } = this.props;
+        history.push(`/setting/${key}`);
+        this.setState({
+            selectedKey: key
+        });
+    }
+
     render() {
+        const { selectedKey } = this.state;
         return this.state.inited ? (
             <div className="page c-page-setting">
                 <PageHeader title="全局管理" />
                 <div className="page-content">
                     <div className="menu-content">
                         <Menu
+                            selectedKeys={[selectedKey]}
                             mode="inline"
+                            onClick={this.selectKey}
                         >
-                            <Menu.Item>基本信息</Menu.Item>
-                            <Menu.Item>账户设置</Menu.Item>
+                            {Object.keys(menu).map(item => <Menu.Item key={item}>{menu[item]}</Menu.Item>)}
                         </Menu>
                     </div>
                     <div className="main-content">
-                        <div className="title">基本信息</div>
+                        <div className="title">{menu[selectedKey]}</div>
+                        <div className="view">
+                            <Route path="/setting/options" exact component={Options} />
+                            <Route path="/setting/account" exact component={Account} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,6 +63,6 @@ class Setting extends BaseComponent {
     }
 }
 
-export default connect(state => {
+export default withRouter(connect((state: AppState) => {
     return {};
-}, {})(Setting);
+}, {})(Setting));

@@ -54,6 +54,7 @@ export const menus: MenuItem[] = [
         path: '/setting',
         title: '全局管理',
         icon: 'setting',
+        redirect: '/setting/options',
         component: React.lazy(() => import('@/pages/Setting'))
     }
 ];
