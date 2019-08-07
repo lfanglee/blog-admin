@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, Button } from 'antd';
 
 import { AccountProps, AccountState } from './interface';
+import './index.scss';
 
 class Account extends React.PureComponent<AccountProps, AccountState> {
     state = {
@@ -14,6 +15,10 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
             confirmDirty: preState.confirmDirty || !!value
         }));
     };
+
+    handleSubmit = (e: React.FormEvent<any>) => {
+        // TODO
+    }
 
     validateToNextPassword = (
         rule: object,
@@ -101,8 +106,15 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
                                 />
                             )}
                         </Form.Item>
+                        <Form.Item>
+                            <Button
+                                type="primary"
+                                onClick={this.handleSubmit}
+                            >确认修改</Button>
+                        </Form.Item>
                     </Form>
                 </div>
+                {/* <div className="right-panel">{{}}</div> */}
             </div>
         );
     }

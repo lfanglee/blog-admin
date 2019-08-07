@@ -49,7 +49,7 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps & Ro
 
     onMenuClick = ({ key }: ClickParam) => {
         if (key === 'set') {
-            this.props.history.push('/settings/options');
+            this.props.history.push('/setting/options');
         } else if (key === 'logout') {
             this.props.logout();
             this.props.history.push('/login');

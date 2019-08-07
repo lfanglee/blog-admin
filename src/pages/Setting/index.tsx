@@ -27,6 +27,12 @@ class Setting extends BaseComponent<Props, State> {
         this.setState({ inited: true });
     }
 
+    componentWillReceiveProps(nextProps: Props) {
+        this.setState({
+            selectedKey: nextProps.location.pathname.replace(`${this.props.match.path}/`, '')
+        });
+    }
+
     selectKey = ({ key }: ClickParam) => {
         const { history } = this.props;
         history.push(`/setting/${key}`);

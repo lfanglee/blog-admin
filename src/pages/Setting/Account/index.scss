@@ -1,0 +1,35 @@
+.c-comp-setting-account {
+    display: flex;
+    padding-top: 12px;
+
+    .left-panel {
+        width: 448px;
+    }
+
+    .right-panel {
+        flex: 1;
+        padding-left: 104px;
+
+        .avatar-title {
+            height: 22px;
+            line-height: 22px;
+            margin-bottom: 8px;
+        }
+
+        .avatar {
+            width: 144px;
+            height: auto;
+            margin-bottom: 12px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .button-view {
+            width: 144px;
+            text-align: center;
+        }
+    }
+}
