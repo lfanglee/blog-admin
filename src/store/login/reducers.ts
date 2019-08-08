@@ -1,48 +1,65 @@
 import {
     Login,
-    LoginActionTypes
+    Admin,
+    LoginActionTypes,
+    UpdateAdminActionTypes
 } from './types';
-import {
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT
-} from '@/constants/index';
+import * as actionTypes from '@/constants/index';
 
-const initialState: Login = {
+const initialState: Login & Admin = {
     username: '',
     token: '',
-    isLoginIng: false
+    isLoginIng: false,
+    name: '',
+    slogan: '',
+    gravatar: '',
+    isLoading: false
 };
 
 export default function counterReducer(
-    state: Login = initialState,
-    action: LoginActionTypes
-): Login {
+    state: Login & Admin = initialState,
+    action: LoginActionTypes | UpdateAdminActionTypes
+): Login & Admin {
     switch (action.type) {
-        case LOGIN_REQUEST:
+        case actionTypes.LOGIN_REQUEST:
             return {
                 ...state,
                 username: action.username,
                 isLoginIng: true
             };
-        case LOGIN_SUCCESS:
+        case actionTypes.LOGIN_SUCCESS:
             return {
                 ...state,
                 token: action.token,
                 isLoginIng: false
             };
-        case LOGIN_FAIL:
+        case actionTypes.LOGIN_FAIL:
             return {
                 ...state,
                 username: '',
                 isLoginIng: false
             };
-        case LOGOUT:
+        case actionTypes.LOGOUT:
             return {
                 ...state,
                 username: '',
                 token: ''
+            };
+        case actionTypes.UPDATE_ADMIN_REQUEST:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case actionTypes.UPDATE_ADMIN_SUCCESS:
+            return {
+                ...state,
+                ...action.payload,
+                isLoading: false
+            };
+        case actionTypes.UPDATE_ADMIN_FAIL:
+            return {
+                ...state,
+                isLoading: false
             };
         default:
             return state;
