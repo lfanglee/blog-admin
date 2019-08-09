@@ -10,11 +10,16 @@ const instance = axios.create({
 
 instance.interceptors.request.use((data: AxiosRequestConfig) => {
     const token = JSON.parse(localStorage.getItem('TOKEN'));
-    if (token && token.token) {
+    if (token && token.token && (1000 * token.activeTime) > Date.now()) {
         data.headers = {
             ...data.headers,
             Authorization: `TOKEN ${JSON.parse(localStorage.getItem('TOKEN')).token}`
         };
+    } else {
+        history.push({
+            pathname: '/login',
+            state: { from: history.location }
+        });
     }
     if (['post', 'put', 'delete', 'patch'].includes(data.method)) {
         data.data = queryString.stringify(data.data);

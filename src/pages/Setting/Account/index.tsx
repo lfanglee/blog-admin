@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Form, Input, Button } from 'antd';
 
+import AvatarView from './AvatarView';
 import { AccountProps, AccountState } from './interface';
 import './index.scss';
 
@@ -114,7 +115,12 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
                         </Form.Item>
                     </Form>
                 </div>
-                {/* <div className="right-panel">{{}}</div> */}
+                <div className="right-panel">
+                    <AvatarView
+                        username="lifang"
+                        avatar="https://admin.lfanglee.cn/uploads/2019-8-9/15653646271356297.jpg"
+                    />
+                </div>
             </div>
         );
     }
