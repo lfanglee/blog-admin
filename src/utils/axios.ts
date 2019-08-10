@@ -35,6 +35,12 @@ instance.interceptors.response.use((res: AxiosResponse) => {
             message: res.data.message || '请求失败',
             duration: 5
         });
+        if (+res.data.code === 401) {
+            history.push({
+                pathname: '/login',
+                state: { from: history.location }
+            });
+        }
     }
     return res;
 }, (error: AxiosError) => {
