@@ -13,6 +13,5 @@ interface OwnProps {}
 export type Props = StateProps & DispatchProps & OwnProps & RouteComponentProps
 
 export interface State {
-    inited: boolean;
     selectedKey: string;
 }

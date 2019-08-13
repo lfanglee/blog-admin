@@ -19,12 +19,7 @@ const menu = {
 
 class Setting extends BaseComponent<Props, State> {
     state: State = {
-        inited: false,
         selectedKey: this.props.location.pathname.replace(`${this.props.match.path}/`, '') || 'options'
-    }
-
-    componentDidMount() {
-        this.setState({ inited: true });
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -43,7 +38,7 @@ class Setting extends BaseComponent<Props, State> {
 
     render() {
         const { selectedKey } = this.state;
-        return this.state.inited ? (
+        return (
             <div className="page c-page-setting">
                 <PageHeader title="全局管理" />
                 <div className="page-content">
@@ -65,7 +60,7 @@ class Setting extends BaseComponent<Props, State> {
                     </div>
                 </div>
             </div>
-        ) : <PageLoading />;
+        );
     }
 }
 
