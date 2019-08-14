@@ -30,13 +30,18 @@ export default function counterReducer(
         case actionTypes.LOGIN_SUCCESS:
             return {
                 ...state,
-                token: action.token,
+                token: action.payload.token,
+                username: action.payload.username,
+                name: action.payload.name,
+                slogan: action.payload.slogan,
+                gravatar: action.payload.gravatar,
                 isLoginIng: false
             };
         case actionTypes.LOGIN_FAIL:
             return {
                 ...state,
                 username: '',
+                gravatar: '',
                 isLoginIng: false
             };
         case actionTypes.LOGOUT:

@@ -25,7 +25,7 @@ export const login = (
     });
 
     if (+loginRes.code === 0) {
-        dispatch(loginSuccess(loginRes.data.token));
+        dispatch(loginSuccess(loginRes.data));
     } else {
         dispatch(loginFail());
     }

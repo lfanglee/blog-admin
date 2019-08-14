@@ -105,7 +105,7 @@ export default class ArticleRelease extends BaseComponent<Props, State> {
         isArticleSubmited: false
     };
 
-    async componentWillMount() {
+    async componentDidMount() {
         if (this.state.articleId) {
             await Promise.all([
                 this.fetchArticleData(),

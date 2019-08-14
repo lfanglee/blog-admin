@@ -20,7 +20,13 @@ interface LoginAction {
 
 interface LoginSuccssAction {
     type: actionTypes.LOGIN_SUCCESS;
-    token: string;
+    payload: {
+        token: string;
+        name: string;
+        username: string;
+        slogan: string;
+        gravatar: string;
+    }
 }
 
 interface LoginFailAction {

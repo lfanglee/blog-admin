@@ -42,7 +42,7 @@ const { Sider, Content } = Layout;
     logout
 }) as any)
 export default class PageLayout extends React.PureComponent<BaseLayoutProps & RouteComponentProps, BaseLayoutState> {
-    state = {
+    state: BaseLayoutState = {
         collapsed: false,
         currentUser: {} as any
     }

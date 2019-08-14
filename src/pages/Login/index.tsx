@@ -28,17 +28,7 @@ interface FormValue {
     password: string
 }
 
-@(withRouter as any)
-@(connect((state: AppState) => {
-    return {
-        username: state.login.username,
-        isLoginIng: state.login.isLoginIng
-    };
-}, {
-    login
-}) as any)
-@(Form.create({}) as any)
-export default class Login extends BaseComponent<Props & RouteComponentProps & FormComponentProps, State> {
+class Login extends BaseComponent<Props & RouteComponentProps & FormComponentProps, State> {
     state = {
         showErrorAlert: false,
         loginErrorMsg: 'Error'
@@ -53,7 +43,7 @@ export default class Login extends BaseComponent<Props & RouteComponentProps & F
         if (+res.code === 0) {
             window.localStorage.setItem('TOKEN', JSON.stringify(res.data));
             const path = this.props.history.location.state && this.props.history.location.state.from.pathname;
-            this.props.history.push(path || '/');
+            this.props.history.push(path === '/login' ? '/' : (path || '/'));
         } else {
             this.setState({
                 showErrorAlert: true,
@@ -126,3 +116,12 @@ export default class Login extends BaseComponent<Props & RouteComponentProps & F
         );
     }
 }
+
+export default connect((state: AppState) => {
+    return {
+        username: state.login.username,
+        isLoginIng: state.login.isLoginIng
+    };
+}, {
+    login
+})(Form.create({})(withRouter(Login)));

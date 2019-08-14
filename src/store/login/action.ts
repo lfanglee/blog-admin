@@ -12,10 +12,10 @@ export function login(username: string): LoginActionTypes {
     };
 }
 
-export function loginSuccess(token: string): LoginActionTypes {
+export function loginSuccess(userInfo: UpdateAdminParams & { token: string; }): LoginActionTypes {
     return {
         type: actionTypes.LOGIN_SUCCESS,
-        token
+        payload: userInfo
     };
 }
 

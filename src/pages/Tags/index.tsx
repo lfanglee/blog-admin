@@ -110,7 +110,7 @@ export default class Tags extends BaseComponent<Props, State> {
         modalInitialValue: {}
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         await this.props.getTags();
         this.setState({ inited: true });
     }
