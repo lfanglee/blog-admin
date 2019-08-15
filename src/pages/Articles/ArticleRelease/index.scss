@@ -12,6 +12,11 @@
         .ant-form-item {
             display: flex;
             margin-right: 0;
+            .ant-form-item-children {
+                height: calc(100vh - 442px);
+                width: 100%;
+                display: block;
+            }
         }
         .ant-form-item-control-wrapper {
             flex: 1;

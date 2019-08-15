@@ -54,6 +54,9 @@ module.exports = merge(baseConfig, {
         }),
         new FilterWarningsPlugin({
             exclude: /mini-css-extract-plugin[^]*Conflicting order between:/,
+        }),
+        new FilterWarningsPlugin({
+            exclude: /Cannot find SourceMap/,
         })
     ]
 });

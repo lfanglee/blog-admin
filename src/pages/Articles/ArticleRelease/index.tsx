@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Prompt } from 'react-router';
 import { Button, Card, Col, Form, Input, Icon, PageHeader, Row, Select, Switch, Spin, message, Divider, Modal } from 'antd';
+import Editor from 'for-editor';
 import qs from 'query-string';
 
 import BaseComponent from '@/pages/components/BaseComponent';
@@ -89,6 +90,7 @@ const windowUnloadListener = (e: Event) => {
         };
     },
     onValuesChange(props: Props, _values, allValues) {
+        console.log(allValues);
         props.setArticleDetail(Object.assign({}, allValues, {
             publish: allValues.publish ? 1 : 2,
             tags: allValues.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])
@@ -277,9 +279,7 @@ export default class ArticleRelease extends BaseComponent<Props, State> {
                                         {getFieldDecorator('content', {
                                             rules: [{ required: true, message: '文章内容不可为空' }]
                                         })(
-                                            <Input.TextArea
-                                                autosize={{ minRows: 20 }}
-                                            />
+                                            <Editor height="100%" />
                                         )}
                                     </Form.Item>
                                 </Col>
