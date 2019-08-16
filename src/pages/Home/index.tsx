@@ -5,10 +5,7 @@ import { PageHeader } from 'antd';
 import BaseComponent from '@/pages/components/BaseComponent';
 import PageLoading from '@/components/PageLoading';
 
-@(connect(state => {
-    return {};
-}, {}) as any)
-export default class Home extends BaseComponent {
+class Home extends BaseComponent {
     state = {
         inited: false
     }
@@ -24,3 +21,7 @@ export default class Home extends BaseComponent {
         ) : <PageLoading />;
     }
 }
+
+export default connect(state => {
+    return {};
+}, {})(Home);

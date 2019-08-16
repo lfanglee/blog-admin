@@ -54,50 +54,7 @@ const windowUnloadListener = (e: Event) => {
     return tip;
 };
 
-@(withRouter as any)
-@(connect((state: AppState) => {
-    return {
-        articleDetail: state.article.detail,
-        isLoadingArticleData: state.article.isLoadingArticleData,
-        tagsList: state.tags.tagsList,
-        isLoadingTagData: state.tags.isLoadingTagData
-    };
-}, {
-    getArticleDetail,
-    addArticle,
-    updateArticle,
-    setArticleDetail,
-    resetArticleDetail,
-    getTags,
-    addTag
-}) as any)
-@(Form.create<Props>({
-    onFieldsChange(props: Props, changedFields, allFileds) {
-        // console.log(props, changedFields, allFileds);
-    },
-    mapPropsToFields(props: Props) {
-        const { title, keyword, type, tags = [], content, publish = 0 } = props.articleDetail;
-        const createFormField = (prop: any) => Form.createFormField({
-            value: prop
-        });
-        return {
-            title: createFormField(title),
-            keyword: createFormField(keyword),
-            type: createFormField(type),
-            tags: createFormField(tags.map((i: Tag) => i.id)),
-            content: createFormField(content),
-            publish: createFormField([0, 1].includes(+publish))
-        };
-    },
-    onValuesChange(props: Props, _values, allValues) {
-        console.log(allValues);
-        props.setArticleDetail(Object.assign({}, allValues, {
-            publish: allValues.publish ? 1 : 2,
-            tags: allValues.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])
-        }));
-    }
-}) as any)
-export default class ArticleRelease extends BaseComponent<Props, State> {
+class ArticleRelease extends BaseComponent<Props, State> {
     private query = qs.parse(this.props.location.search);
 
     state: State = {
@@ -314,3 +271,45 @@ export default class ArticleRelease extends BaseComponent<Props, State> {
         ) : <PageLoading />;
     }
 }
+
+export default connect((state: AppState) => {
+    return {
+        articleDetail: state.article.detail,
+        isLoadingArticleData: state.article.isLoadingArticleData,
+        tagsList: state.tags.tagsList,
+        isLoadingTagData: state.tags.isLoadingTagData
+    };
+}, {
+    getArticleDetail,
+    addArticle,
+    updateArticle,
+    setArticleDetail,
+    resetArticleDetail,
+    getTags,
+    addTag
+})(Form.create<Props>({
+    onFieldsChange(props: Props, changedFields, allFileds) {
+        // console.log(props, changedFields, allFileds);
+    },
+    mapPropsToFields(props: Props) {
+        const { title, keyword, type, tags = [], content, publish = 0 } = props.articleDetail;
+        const createFormField = (prop: any) => Form.createFormField({
+            value: prop
+        });
+        return {
+            title: createFormField(title),
+            keyword: createFormField(keyword),
+            type: createFormField(type),
+            tags: createFormField(tags.map((i: Tag) => i.id)),
+            content: createFormField(content),
+            publish: createFormField([0, 1].includes(+publish))
+        };
+    },
+    onValuesChange(props: Props, _values, allValues) {
+        console.log(allValues);
+        props.setArticleDetail(Object.assign({}, allValues, {
+            publish: allValues.publish ? 1 : 2,
+            tags: allValues.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])
+        }));
+    }
+})(withRouter(ArticleRelease)));
