@@ -58,7 +58,7 @@ instance.interceptors.response.use((res: AxiosResponse) => {
         }
     } else if (error.response && error.response.data) {
         notification.error({
-            message: error.response.data,
+            message: error.message,
             duration: 5
         });
         if (error.response.status === 401) {

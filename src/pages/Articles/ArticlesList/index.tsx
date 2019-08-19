@@ -45,18 +45,7 @@ const publishMap = ['', '公开', '私有'];
 const typeMap = ['', 'code', '随笔'];
 const statusMap = ['default', 'success', 'processing'];
 
-@(withRouter as any)
-@(connect((state: AppState) => {
-    return {
-        articleList: state.articles.articleList,
-        pagination: state.articles.pagination,
-        isLoadingListData: state.articles.isLoadingArticleListData
-    };
-}, {
-    getArticleList,
-    deleteArticle
-}) as any)
-export default class ArticleList extends BaseComponent<Props & RouteComponentProps> {
+class ArticleList extends BaseComponent<Props & RouteComponentProps> {
     private columns: ColumnProps<ColumnRecord>[] = [{
         title: '文章标题',
         dataIndex: 'title',
@@ -206,3 +195,14 @@ export default class ArticleList extends BaseComponent<Props & RouteComponentPro
         );
     }
 }
+
+export default connect((state: AppState) => {
+    return {
+        articleList: state.articles.articleList,
+        pagination: state.articles.pagination,
+        isLoadingListData: state.articles.isLoadingArticleListData
+    };
+}, {
+    getArticleList,
+    deleteArticle
+})(withRouter(ArticleList));

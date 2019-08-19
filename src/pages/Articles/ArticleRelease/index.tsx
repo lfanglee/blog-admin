@@ -229,7 +229,7 @@ class ArticleRelease extends BaseComponent<Props, State> {
                         <Card bordered={false}>
                             {this.renderForm()}
                         </Card>
-                        <Card className="page-content" bordered={false}>
+                        <div className="page-content">
                             <Row className="article-content-input">
                                 <Col span={24}>
                                     <Form.Item>
@@ -255,11 +255,11 @@ class ArticleRelease extends BaseComponent<Props, State> {
                                     </Form.Item>
                                 </Col>
                                 <Col className="artile-release-btn-group" span={12}>
-                                    <Button onClick={() => this.handleArticleSave(2)}>存为草稿</Button>
+                                    <Button onClick={() => this.handleArticleSave(2)}>保存</Button>
                                     <Button type="primary" onClick={() => this.handleArticleSave(1)}>{this.props.articleDetail.id ? '更新' : '发布'}</Button>
                                 </Col>
                             </Row>
-                        </Card>
+                        </div>
                     </Form>
                 </Spin>
                 <CreateTagForm
