@@ -91,18 +91,7 @@ const TagConfigModal = ({ modalType, handleOk, ...props }: TagModalWrapperProps 
     );
 };
 
-@(connect((state: AppState) => {
-    return {
-        tagsList: state.tags.tagsList,
-        isLoadingTagData: state.tags.isLoadingTagData
-    };
-}, {
-    getTags,
-    addTag,
-    updateTag,
-    deleteTag
-}) as any)
-export default class Tags extends BaseComponent<Props, State> {
+class Tags extends BaseComponent<Props, State> {
     state: State = {
         inited: false,
         modalType: ModalTypes.NONE,
@@ -230,3 +219,15 @@ export default class Tags extends BaseComponent<Props, State> {
         ) : <PageLoading />;
     }
 }
+
+export default connect((state: AppState) => {
+    return {
+        tagsList: state.tags.tagsList,
+        isLoadingTagData: state.tags.isLoadingTagData
+    };
+}, {
+    getTags,
+    addTag,
+    updateTag,
+    deleteTag
+})(Tags);
