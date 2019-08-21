@@ -22,10 +22,10 @@ class Setting extends BaseComponent<Props, State> {
         selectedKey: this.props.location.pathname.replace(`${this.props.match.path}/`, '') || 'options'
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-        this.setState({
-            selectedKey: nextProps.location.pathname.replace(`${this.props.match.path}/`, '')
-        });
+    static getDerivedStateFromProps(props: Props, _state: State) {
+        return {
+            selectedKey: props.location.pathname.replace(`${props.match.path}/`, '')
+        };
     }
 
     selectKey = ({ key }: ClickParam) => {
