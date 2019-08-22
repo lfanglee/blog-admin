@@ -7,6 +7,7 @@
         background: #FFF;
         .menu-content {
             width: 224px;
+            flex-shrink: 0;
             border-right: 1px solid #e8e8e8;
         }
         .main-content {

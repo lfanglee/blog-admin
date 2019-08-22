@@ -1,8 +1,11 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 
 import AvatarView from './AvatarView';
+import { updateAdmin } from '@/store/login/thunks';
 import { AccountProps, AccountState } from './interface';
+import { AppState } from '@/store';
 import './index.scss';
 
 class Account extends React.PureComponent<AccountProps, AccountState> {
@@ -126,4 +129,10 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
     }
 }
 
-export default Form.create()(Account);
+export default connect((state: AppState) => ({
+    isLoading: state.login.isLoading,
+    name: state.login.name,
+    slogan: state.login.slogan
+}), {
+    updateAdmin
+})(Form.create()(Account));
