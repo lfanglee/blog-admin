@@ -5,7 +5,6 @@ import { PageHeader, Menu, Divider } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
 
 import BaseComponent from '@/pages/components/BaseComponent';
-import PageLoading from '@/components/PageLoading';
 import Account from './Account';
 import Options from './Options';
 import { AppState } from '@/store';

@@ -37,11 +37,7 @@ interface BaseLayoutState {
 
 const { Sider, Content } = Layout;
 
-@(withRouter as any)
-@(connect((state: AppState) => ({}), {
-    logout
-}) as any)
-export default class PageLayout extends React.PureComponent<BaseLayoutProps & RouteComponentProps, BaseLayoutState> {
+class PageLayout extends React.PureComponent<BaseLayoutProps & RouteComponentProps, BaseLayoutState> {
     state: BaseLayoutState = {
         collapsed: false,
         currentUser: {} as any
@@ -121,3 +117,7 @@ export default class PageLayout extends React.PureComponent<BaseLayoutProps & Ro
         );
     }
 }
+
+export default connect((state: AppState) => ({}), {
+    logout
+})(withRouter(PageLayout));
