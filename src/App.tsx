@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -13,7 +14,7 @@ const store = configureStore();
 const Login = React.lazy(() => import('@/pages/Login'));
 const Layout = React.lazy(() => import('@/layouts/BasicLayout'));
 
-export default class App extends React.Component {
+class App extends React.Component {
     componentDidCatch(error: Error, info: React.ErrorInfo) {
         notification.error({
             message: 'something was error',
@@ -37,3 +38,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default hot(App);
