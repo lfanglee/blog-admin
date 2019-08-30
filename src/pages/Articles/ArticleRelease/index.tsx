@@ -306,7 +306,6 @@ export default connect((state: AppState) => {
         };
     },
     onValuesChange(props: Props, _values, allValues) {
-        console.log(allValues);
         props.setArticleDetail(Object.assign({}, allValues, {
             publish: allValues.publish ? 1 : 2,
             tags: allValues.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])
