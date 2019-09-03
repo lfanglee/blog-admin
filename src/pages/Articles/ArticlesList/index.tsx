@@ -120,7 +120,7 @@ class ArticleList extends BaseComponent<Props & RouteComponentProps> {
 
     handleListItemMoreAction = async (key: string, recordId: string) => {
         if (key === ItemMoreActions.PREVIEW) {
-            location.href = `https://blog.lfanglee.cn/article/${recordId}`;
+            window.open(`https://blog.lfanglee.cn/article/${recordId}`);
         } else if (key === ItemMoreActions.DELETE) {
             Modal.confirm({
                 title: '确认删除文章吗？',
