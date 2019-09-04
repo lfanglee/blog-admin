@@ -42,6 +42,11 @@ module.exports = merge(baseConfig, {
         path: config.dev.outputPath,
         publicPath: config.dev.outputPublicPath
     },
+    resolve: {
+        alias: {
+            'react-dom': '@hot-loader/react-dom'
+        }
+    },
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',

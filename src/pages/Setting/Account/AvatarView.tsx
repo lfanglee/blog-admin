@@ -20,7 +20,7 @@ export default class AvatarView extends React.PureComponent<Props, State> {
         const { loading } = this.state;
         return (
             <div className="c-comp-avatar-view">
-                <div className="name">{ username }</div>
+                <div className="avatar-title">{ username }</div>
                 <div className="avatar">
                     <img src={avatar} alt="avatar" />
                 </div>

@@ -51,7 +51,7 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
     };
 
     render() {
-        const { form } = this.props;
+        const { form, name, slogan } = this.props;
         const { getFieldDecorator } = form;
         return (
             <div className="c-comp-setting-account">
@@ -59,7 +59,7 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
                     <Form>
                         <Form.Item label="昵称">
                             {getFieldDecorator('name', {
-                                initialValue: '',
+                                initialValue: name,
                                 rules: [
                                     {
                                         required: true,
@@ -70,7 +70,7 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
                         </Form.Item>
                         <Form.Item label="个性签名">
                             {getFieldDecorator('slogan', {
-                                initialValue: ''
+                                initialValue: slogan
                             })(<Input />)}
                         </Form.Item>
 
@@ -120,8 +120,8 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
                 </div>
                 <div className="right-panel">
                     <AvatarView
-                        username="lifang"
-                        avatar="https://admin.lfanglee.cn/uploads/2019-8-9/15653646271356297.jpg"
+                        username={name}
+                        avatar={slogan}
                     />
                 </div>
             </div>
