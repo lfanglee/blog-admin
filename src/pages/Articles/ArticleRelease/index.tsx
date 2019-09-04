@@ -255,8 +255,8 @@ class ArticleRelease extends BaseComponent<Props, State> {
                                     </Form.Item>
                                 </Col>
                                 <Col className="artile-release-btn-group" span={12}>
-                                    <Button onClick={() => this.handleArticleSave(2)}>保存</Button>
-                                    <Button type="primary" onClick={() => this.handleArticleSave(1)}>{this.props.articleDetail.id ? '更新' : '发布'}</Button>
+                                    <Button onClick={() => this.handleArticleSave(2)}>保存草稿</Button>
+                                    <Button type="primary" onClick={() => this.handleArticleSave(1)}>发布</Button>
                                 </Col>
                             </Row>
                         </div>
@@ -306,7 +306,6 @@ export default connect((state: AppState) => {
         };
     },
     onValuesChange(props: Props, _values, allValues) {
-        console.log(allValues);
         props.setArticleDetail(Object.assign({}, allValues, {
             publish: allValues.publish ? 1 : 2,
             tags: allValues.tags.map((tagId: string) => props.tagsList.filter((item: Tag) => item.id === tagId)[0])

@@ -62,7 +62,7 @@ export async function addTag(
 export async function updateTag(
     params: PatchTagParams, config: AxiosRequestConfig = {}
 ): Promise<Ajax.AjaxResponse<Tag>> {
-    const res: AxiosResponse = await request.patch<PatchTagParams>(`/tag${params.id}`, {
+    const res: AxiosResponse = await request.patch<PatchTagParams>(`/tag/${params.id}`, {
         ...params
     }, {
         ...config
@@ -77,7 +77,7 @@ export async function updateTag(
 export async function deleteTag(
     params: DeleteTagParams, config: AxiosRequestConfig = {}
 ): Promise<Ajax.AjaxResponse<null>> {
-    const res: AxiosResponse = await request.delete(`/tag${params.id}`, {
+    const res: AxiosResponse = await request.delete(`/tag/${params.id}`, {
         ...config
     });
     return res.data;
