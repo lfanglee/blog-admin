@@ -57,3 +57,17 @@ interface UpdateAdminFailAction {
 }
 
 export type UpdateAdminActionTypes = UpdateAdminAction | UpdateAdminSuccessAction | UpdateAdminFailAction;
+
+interface UpdatePasswordAction {
+    type: actionTypes.UPDATE_PASSWORD_REQUEST;
+}
+
+interface UpdatePasswordSuccessAction {
+    type: actionTypes.UPDATE_PASSWORD_SUCCESS;
+}
+
+interface UpdatePasswordFailAction {
+    type: actionTypes.UPDATE_PASSWORD_FAIL;
+}
+
+export type UpdatePasswordActionTypes = UpdatePasswordAction | UpdatePasswordSuccessAction | UpdatePasswordFailAction;

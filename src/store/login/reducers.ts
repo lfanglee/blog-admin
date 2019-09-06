@@ -2,7 +2,8 @@ import {
     Login,
     Admin,
     LoginActionTypes,
-    UpdateAdminActionTypes
+    UpdateAdminActionTypes,
+    UpdatePasswordActionTypes
 } from './types';
 import * as actionTypes from '@/constants/index';
 
@@ -18,7 +19,7 @@ const initialState: Login & Admin = {
 
 export default function counterReducer(
     state: Login & Admin = initialState,
-    action: LoginActionTypes | UpdateAdminActionTypes
+    action: LoginActionTypes | UpdateAdminActionTypes | UpdatePasswordActionTypes
 ): Login & Admin {
     switch (action.type) {
         case actionTypes.LOGIN_REQUEST:
@@ -51,6 +52,7 @@ export default function counterReducer(
                 token: ''
             };
         case actionTypes.UPDATE_ADMIN_REQUEST:
+        case actionTypes.UPDATE_PASSWORD_REQUEST:
             return {
                 ...state,
                 isLoading: true
@@ -62,6 +64,8 @@ export default function counterReducer(
                 isLoading: false
             };
         case actionTypes.UPDATE_ADMIN_FAIL:
+        case actionTypes.UPDATE_PASSWORD_SUCCESS:
+        case actionTypes.UPDATE_PASSWORD_FAIL:
             return {
                 ...state,
                 isLoading: false

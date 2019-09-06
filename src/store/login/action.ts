@@ -1,8 +1,9 @@
 import {
     LoginActionTypes,
-    UpdateAdminActionTypes
+    UpdateAdminActionTypes,
+    UpdatePasswordActionTypes
 } from './types';
-import { UpdateAdminParams } from '@/services/login';
+import { UpdateAdminParams, UpdatePassword } from '@/services/login';
 import * as actionTypes from '@/constants/index';
 
 export function login(username: string): LoginActionTypes {
@@ -47,5 +48,23 @@ export function updateAdminSuccess(params: UpdateAdminParams): UpdateAdminAction
 export function updateAdminFail(): UpdateAdminActionTypes {
     return {
         type: actionTypes.UPDATE_ADMIN_FAIL
+    };
+}
+
+export function updatePassword(): UpdatePasswordActionTypes {
+    return {
+        type: actionTypes.UPDATE_PASSWORD_REQUEST
+    };
+}
+
+export function updatePasswordSuccess(): UpdatePasswordActionTypes {
+    return {
+        type: actionTypes.UPDATE_PASSWORD_SUCCESS
+    };
+}
+
+export function updatePasswordFail(): UpdatePasswordActionTypes {
+    return {
+        type: actionTypes.UPDATE_PASSWORD_FAIL
     };
 }

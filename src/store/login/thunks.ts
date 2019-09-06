@@ -6,9 +6,16 @@ import {
 import {
     login as loginRequest, loginSuccess, loginFail,
     logout as LogoutAction,
-    updateAdmin as updateAdminRequest, updateAdminSuccess, updateAdminFail
+    updateAdmin as updateAdminRequest, updateAdminSuccess, updateAdminFail,
+    updatePassword as updatePasswordRequest, updatePasswordSuccess, updatePasswordFail
 } from './action';
-import { login as loginService, updateAdmin as updateAdminService, UpdateAdminParams } from '@/services/login';
+import {
+    login as loginService,
+    updateAdmin as updateAdminService,
+    updatePassword as updatePasswordService,
+    UpdateAdminParams,
+    UpdatePassword
+} from '@/services/login';
 
 type AdminInfo = Login & Admin;
 
@@ -49,6 +56,20 @@ export const updateAdmin = (params: UpdateAdminParams): ThunkAction<void, AdminI
         dispatch(updateAdminSuccess(res.data));
     } else {
         dispatch(updateAdminFail());
+    }
+    return res;
+};
+
+export const updatePassword = (params: UpdatePassword): ThunkAction<void, AdminInfo, null, Action<string>> => async (
+    dispatch: ThunkDispatch<AdminInfo, null, Action<string>>
+) => {
+    dispatch(updatePasswordRequest());
+    const res = await updatePasswordService(params);
+
+    if (+res.code === 0) {
+        dispatch(updatePasswordSuccess());
+    } else {
+        dispatch(updatePasswordFail());
     }
     return res;
 };
