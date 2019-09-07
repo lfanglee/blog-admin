@@ -1,14 +1,13 @@
 import { FormComponentProps } from 'antd/lib/form';
-import { UpdateAdminParams } from '@/services/login';
+import { UpdatePassword } from '@/services/login';
 
 interface StateProps {
     isLoading: boolean;
-    name: string;
-    slogan: string;
+    username: string;
 }
 
 interface DispatchProps {
-    updateAdmin(params: UpdateAdminParams): Promise<Ajax.AjaxResponse<UpdateAdminParams>>;
+    updatePassword(params: UpdatePassword): Promise<Ajax.AjaxResponse<null>>;
 }
 
 export type AccountProps = StateProps & DispatchProps & FormComponentProps;
