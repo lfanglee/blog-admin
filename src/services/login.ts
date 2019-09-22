@@ -41,6 +41,6 @@ export async function updatePassword(
     params: UpdatePassword,
     config: AxiosRequestConfig = {}
 ): Promise<Ajax.AjaxResponse<UpdateAdminParams>> {
-    const res: AxiosResponse = await request.put<UpdatePassword>('/auth', params, config);
+    const res: AxiosResponse = await request.patch<UpdatePassword>('/auth', params, config);
     return res.data;
 }
