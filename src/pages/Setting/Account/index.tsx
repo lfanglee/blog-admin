@@ -2,13 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 
-import AvatarView from './AvatarView';
+import BaseComponent from '@/pages/components/BaseComponent';
 import { updatePassword } from '@/store/login/thunks';
 import { AccountProps, AccountState } from './interface';
 import { AppState } from '@/store';
 import './index.scss';
 
-class Account extends React.PureComponent<AccountProps, AccountState> {
+class Account extends BaseComponent<AccountProps, AccountState> {
     state = {
         confirmDirty: false
     }
@@ -21,7 +21,6 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
     };
 
     handleSubmit = (e: React.FormEvent<any>) => {
-        // TODO
         const { form, updatePassword: updatePasswordReq } = this.props;
         form.validateFields(async (err, values) => {
             if (err) {
@@ -33,7 +32,10 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
                 oldPass,
                 newPass
             });
-            console.log(res);
+            if (res.code === 0) {
+                this.$message.success('更新密码成功！');
+                form.resetFields();
+            }
         });
     }
 
@@ -70,23 +72,6 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
             <div className="c-comp-setting-account">
                 <div className="left-panel">
                     <Form>
-                        {/* <Form.Item label="昵称">
-                            {getFieldDecorator('name', {
-                                initialValue: name,
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请输入昵称!'
-                                    }
-                                ]
-                            })(<Input />)}
-                        </Form.Item>
-                        <Form.Item label="个性签名">
-                            {getFieldDecorator('slogan', {
-                                initialValue: slogan
-                            })(<Input />)}
-                        </Form.Item> */}
-
                         <Form.Item label="原密码">
                             {getFieldDecorator('oldPassword', {
                                 rules: [
@@ -134,12 +119,6 @@ class Account extends React.PureComponent<AccountProps, AccountState> {
                         </Form.Item>
                     </Form>
                 </div>
-                {/* <div className="right-panel">
-                    <AvatarView
-                        username={name}
-                        avatar={slogan}
-                    />
-                </div> */}
             </div>
         );
     }
