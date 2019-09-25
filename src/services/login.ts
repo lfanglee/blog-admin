@@ -15,7 +15,6 @@ export interface UpdateAdminParams {
 }
 
 export interface UpdatePassword {
-    username: string;
     oldPass: string;
     newPass: string;
 }

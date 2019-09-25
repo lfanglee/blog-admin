@@ -26,13 +26,13 @@ class Account extends BaseComponent<AccountProps, AccountState> {
             if (err) {
                 return;
             }
-            const { oldPass, newPass, username } = values;
+            const { oldPassword: oldPass, password: newPass } = values;
             const res = await updatePasswordReq({
-                username,
                 oldPass,
                 newPass
             });
             if (res.code === 0) {
+                window.localStorage.setItem('TOKEN', JSON.stringify(res.data));
                 this.$message.success('更新密码成功！');
                 form.resetFields();
             }

@@ -68,7 +68,7 @@ class Login extends BaseComponent<Props & RouteComponentProps & FormComponentPro
                 <div className="c-page-login">
                     <div className="login-layout-top">
                         <img src={require('../../images/logo.png')} alt="logo" />
-                        <span className="header">blog-admin login</span>
+                        <span className="header">Blog-Admin</span>
                     </div>
                     <Form onSubmit={this.handleFormSubmit} className="login-form">
                         { this.state.showErrorAlert ? <Alert className="login-alert" message={this.state.loginErrorMsg} type="error" showIcon /> : '' }
